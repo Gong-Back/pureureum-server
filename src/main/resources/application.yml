@@ -1,1 +1,9 @@
+spring:
+  application:
+    name: pureureum
 
+server:
+  error:
+    whitelabel:
+      enabled: false
+  shutdown: graceful # rolling update를 위해 graceful shutdown을 사용한다.
