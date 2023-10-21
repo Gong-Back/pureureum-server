@@ -31,6 +31,9 @@ dependencies {
 	implementation("io.awspring.cloud:spring-cloud-aws-starter-parameter-store")
 	implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4")
 
+	// sentry
+	implementation("io.sentry:sentry-spring-boot-starter-jakarta:6.32.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
