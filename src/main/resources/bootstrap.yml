@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: pureureum
+  profiles:
+    active: local
+  config:
+    import: 'optional:aws-parameterstore:/config/pureureum_${spring.profiles.active}'
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_KEY_ID}
+    compatibility-verifier:
+      enabled: false
