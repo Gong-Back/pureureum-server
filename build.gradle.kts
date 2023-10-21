@@ -25,6 +25,12 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly("com.mysql:mysql-connector-j")
+
+	// spring cloud aws + aws parameter store
+	implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2"))
+	implementation("io.awspring.cloud:spring-cloud-aws-starter-parameter-store")
+	implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
