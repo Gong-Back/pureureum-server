@@ -1,0 +1,9 @@
+sentry:
+  environment: ${spring.profiles.active}
+  exception-resolver-order: -2147483647
+
+---
+spring.config.activate.on-profile: prod
+sentry:
+  traces-sample-rate: 0.5
+  dsn:
