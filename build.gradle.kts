@@ -24,8 +24,16 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	// open search
+	implementation("org.opensearch.client:opensearch-rest-high-level-client:2.11.0")
+
+	// mysql
 	runtimeOnly("com.mysql:mysql-connector-j")
+
+	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.opensearch.client:spring-data-opensearch-test-autoconfigure:1.2.0")
 }
 
 tasks.withType<KotlinCompile> {
