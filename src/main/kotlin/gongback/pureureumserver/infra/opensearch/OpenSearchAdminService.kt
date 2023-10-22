@@ -54,7 +54,7 @@ class OpenSearchAdminService(
         openSearchOperator.reindex(reindexRequest)
 
         // 기존 인덱스를 제거한다.
-//        openSearchOperator.deleteIndex(DeleteIndexRequest(indexPropertyDeleteRequest.baseIndex))
+        openSearchOperator.deleteIndex(DeleteIndexRequest(indexPropertyDeleteRequest.baseIndex))
     }
 
     override fun deleteIndex(indexDeleteRequest: IndexDeleteRequest): Boolean {

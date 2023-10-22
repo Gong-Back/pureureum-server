@@ -47,7 +47,7 @@ class OpenSearchService(
 
     override fun save(saveCondition: SaveCondition): String {
         val indexRequest = IndexRequest(saveCondition.index)
-            .source(saveCondition.data.toMap())
+            .source(convertToMap(saveCondition.data))
 
         val saveResponse = openSearchOperator.saveData(indexRequest)
         return saveResponse.id
@@ -62,7 +62,7 @@ class OpenSearchService(
     override fun update(updateCondition: UpdateCondition): String {
         val indexRequest = IndexRequest(updateCondition.index)
             .id(updateCondition.docId)
-            .source(updateCondition.data.toMap())
+            .source(convertToMap(updateCondition.data))
 
         val saveResponse = openSearchOperator.saveData(indexRequest)
         return saveResponse.id
@@ -83,35 +83,35 @@ class OpenSearchService(
             SearchResult(result, it.id)
         }
     }
-}
 
-fun Any.toMap(): Map<String, Any?> {
-    return this::class.memberProperties.associate { it.name to it.call(this) }
-}
+    private fun convertToMap(target: Any): Map<String, Any?> {
+        return target::class.memberProperties.associate { it.name to it.call(target) }
+    }
 
-fun SearchSourceBuilder.match(searchCondition: SearchCondition): SearchSourceBuilder {
-    if (searchCondition.field == null || searchCondition.value == null) {
+    private fun SearchSourceBuilder.match(searchCondition: SearchCondition): SearchSourceBuilder {
+        if (searchCondition.field == null || searchCondition.value == null) {
+            return this
+        }
+        return this.query(QueryBuilders.matchQuery(searchCondition.field, searchCondition.value))
+    }
+
+    private fun SearchSourceBuilder.contains(searchCondition: SearchCondition): SearchSourceBuilder {
+        if (searchCondition.field == null || searchCondition.value == null) {
+            return this
+        }
+        return this.query(QueryBuilders.wildcardQuery(searchCondition.field, "*${searchCondition.value}*"))
+    }
+
+    private fun SearchSourceBuilder.sortedBy(sortConditions: List<SortCondition>?): SearchSourceBuilder {
+        sortConditions?.forEach {
+            sort(it.field, SortOrder.valueOf(it.orderType.name))
+        }
         return this
     }
-    return this.query(QueryBuilders.matchQuery(searchCondition.field, searchCondition.value))
-}
 
-fun SearchSourceBuilder.contains(searchCondition: SearchCondition): SearchSourceBuilder {
-    if (searchCondition.field == null || searchCondition.value == null) {
-        return this
+    private fun SearchSourceBuilder.pagination(pageCondition: PageCondition?): SearchSourceBuilder {
+        return pageCondition?.let {
+            from(it.getFrom()).size(it.size)
+        } ?: this
     }
-    return this.query(QueryBuilders.wildcardQuery(searchCondition.field, "*${searchCondition.value}*"))
-}
-
-fun SearchSourceBuilder.sortedBy(sortConditions: List<SortCondition>?): SearchSourceBuilder {
-    sortConditions?.forEach {
-        sort(it.field, SortOrder.valueOf(it.orderType.name))
-    }
-    return this
-}
-
-fun SearchSourceBuilder.pagination(pageCondition: PageCondition?): SearchSourceBuilder {
-    return pageCondition?.let {
-        from(it.getFrom()).size(it.size)
-    } ?: this
 }
