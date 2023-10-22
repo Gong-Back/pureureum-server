@@ -54,14 +54,14 @@ class OpenSearchService(
     }
 
     override fun delete(deleteCondition: DeleteCondition): String {
-        val deleteRequest = DeleteRequest(deleteCondition.index, deleteCondition.docId.toString())
+        val deleteRequest = DeleteRequest(deleteCondition.index, deleteCondition.docId)
         val deleteResponse = openSearchOperator.deleteData(deleteRequest)
         return deleteResponse.id
     }
 
     override fun update(updateCondition: UpdateCondition): String {
         val indexRequest = IndexRequest(updateCondition.index)
-            .id(updateCondition.docId.toString())
+            .id(updateCondition.docId)
             .source(updateCondition.data.toMap())
 
         val saveResponse = openSearchOperator.saveData(indexRequest)
@@ -80,7 +80,6 @@ class OpenSearchService(
     private fun convertResult(searchResult: Array<out SearchHit>, targetType: Class<*>): List<SearchResult> {
         return searchResult.map {
             val result = objectMapper.readValue(it.sourceAsString, targetType)
-            println("it.id() = ${it.id}")
             SearchResult(result, it.id)
         }
     }
