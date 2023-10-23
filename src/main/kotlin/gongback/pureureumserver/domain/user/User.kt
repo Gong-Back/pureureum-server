@@ -50,9 +50,6 @@ class User(
     val email: String
         get() = information.email
 
-    val phoneNumber: String
-        get() = information.phoneNumber
-
     val birthday: LocalDate
         get() = information.birthday
 

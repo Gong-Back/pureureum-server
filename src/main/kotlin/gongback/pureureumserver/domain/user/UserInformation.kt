@@ -15,9 +15,6 @@ data class UserInformation(
     @Column(unique = true, nullable = false, length = 30)
     val email: String,
 
-    @Column(unique = true, nullable = false, length = 13)
-    var phoneNumber: String,
-
     @Column(nullable = false)
     val birthday: LocalDate,
 
