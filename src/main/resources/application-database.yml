@@ -1,0 +1,55 @@
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    org:
+      hibernate: info
+
+---
+spring.config.activate.on-profile: prod
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        generate-ddl: false
+
+---
+spring.config.activate.on-profile: local
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        generate-ddl: false
+        format_sql: true
+    show-sql: true
+
+---
+spring.config.activate.on-profile: test
+spring:
+  jpa:
+    database: h2
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MariaDB;
+    username: SA
+    password: password
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema-h2.sql
