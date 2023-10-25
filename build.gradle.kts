@@ -41,6 +41,9 @@ dependencies {
 	// sentry
 	implementation("io.sentry:sentry-spring-boot-starter-jakarta:6.32.0")
 
+	// redis
+	implementation("org.redisson:redisson-spring-boot-starter:3.23.4")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
