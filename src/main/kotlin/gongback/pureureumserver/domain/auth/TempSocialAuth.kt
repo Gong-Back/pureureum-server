@@ -20,6 +20,7 @@ class TempSocialAuth(
 
     val birthday: String? = null,
 
+    @Enumerated(EnumType.STRING)
     val gender: Gender? = null,
 
     @Enumerated(EnumType.STRING)

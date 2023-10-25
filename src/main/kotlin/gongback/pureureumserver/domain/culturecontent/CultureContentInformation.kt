@@ -22,7 +22,7 @@ data class CultureContentInformation(
     @Column(nullable = false)
     val endDate: LocalDate,
 
-    val agoraEnabled: Boolean,
+    val commentEnabled: Boolean,
 
     @Embedded
     val address: CultureContentAddress,

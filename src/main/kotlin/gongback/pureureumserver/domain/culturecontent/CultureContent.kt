@@ -71,8 +71,8 @@ class CultureContent(
     val endDate: LocalDate
         get() = cultureContentInformation.endDate
 
-    val agoraEnabled: Boolean
-        get() = cultureContentInformation.agoraEnabled
+    val commentEnabled: Boolean
+        get() = cultureContentInformation.commentEnabled
 
     val city: String
         get() = cultureContentInformation.address.city

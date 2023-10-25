@@ -23,8 +23,5 @@ class DashboardBoardComment(
     val content: String,
 
     @Column(nullable = false)
-    val depth: Int,
-
-    @Column(nullable = false)
     val parentId: Long
 ) : BaseTimeEntity()

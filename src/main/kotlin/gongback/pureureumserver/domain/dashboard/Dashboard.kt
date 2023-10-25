@@ -58,7 +58,7 @@ class Dashboard(
         name = "dashboard_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_bulletin_board_dashboard_id_ref_dashboard_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_dashboard_id")
     )
     private val _boards: MutableList<DashboardBoard> = boards.toMutableList()
 

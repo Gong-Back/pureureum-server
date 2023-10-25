@@ -13,8 +13,5 @@ class CommunityComment(
     val content: String,
 
     @Column(nullable = false)
-    val depth: Int,
-
-    @Column(nullable = false)
     val parentCommentId: Long
 ) : BaseTimeEntity()
