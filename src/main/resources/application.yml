@@ -4,6 +4,7 @@ spring:
       - sentry
       - database
       - flyway
+      - open-search
 
 server:
   error:
