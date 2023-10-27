@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.community
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
@@ -14,4 +14,4 @@ class CommunityComment(
 
     @Column(nullable = false)
     val parentCommentId: Long,
-) : BaseUpdatedTimeEntity()
+) : BaseUpdatableEntity()

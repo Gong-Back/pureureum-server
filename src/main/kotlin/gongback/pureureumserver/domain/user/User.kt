@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.user
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import gongback.pureureumserver.support.domain.Gender
 import gongback.pureureumserver.support.domain.SocialType
 import jakarta.persistence.CascadeType
@@ -29,7 +29,7 @@ class User(
     val userRole: UserRole,
 
     profile: Profile = Profile.defaultProfile(),
-) : BaseUpdatedTimeEntity() {
+) : BaseUpdatableEntity() {
     @OneToOne(
         fetch = FetchType.LAZY,
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],

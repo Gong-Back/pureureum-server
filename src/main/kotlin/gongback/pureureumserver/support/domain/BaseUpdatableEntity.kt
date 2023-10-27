@@ -6,7 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @MappedSuperclass
-abstract class BaseUpdatedTimeEntity : BaseEntity() {
+abstract class BaseUpdatableEntity : BaseEntity() {
 
     @UpdateTimestamp
     @Column(nullable = false)

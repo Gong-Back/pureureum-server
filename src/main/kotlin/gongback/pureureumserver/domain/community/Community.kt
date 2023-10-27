@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.community
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -25,7 +25,7 @@ class Community(
 
     files: List<CommunityFile> = emptyList(),
 
-) : BaseUpdatedTimeEntity() {
+) : BaseUpdatableEntity() {
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(
         name = "community_id",

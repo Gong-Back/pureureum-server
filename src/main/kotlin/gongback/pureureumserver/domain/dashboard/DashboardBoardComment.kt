@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -24,4 +24,4 @@ class DashboardBoardComment(
 
     @Column(nullable = false)
     val parentId: Long,
-) : BaseUpdatedTimeEntity()
+) : BaseUpdatableEntity()

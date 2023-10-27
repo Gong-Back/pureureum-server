@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -25,7 +25,7 @@ class Dashboard(
 
     boards: List<DashboardBoard> = emptyList(),
 
-) : BaseUpdatedTimeEntity() {
+) : BaseUpdatableEntity() {
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(
         name = "dashboard_id",

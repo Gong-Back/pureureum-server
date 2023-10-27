@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.culturecontent
 
-import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
@@ -27,7 +27,7 @@ class CultureContent(
     files: List<CultureContentFile> = emptyList(),
 
     comments: List<CultureContentComment> = emptyList(),
-) : BaseUpdatedTimeEntity() {
+) : BaseUpdatableEntity() {
     @Column(nullable = false)
     var likeCount: Int = 0
         protected set
