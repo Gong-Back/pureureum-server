@@ -1,7 +1,7 @@
 create table profile
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
@@ -11,15 +11,16 @@ create table profile
 create table user
 (
     id              bigint      not null auto_increment COMMENT 'PK',
-    created_date    date        not null COMMENT '생성일',
+    created_date    timestamp   not null COMMENT '생성일',
+    updated_date    timestamp   not null COMMENT '수정일',
     birthday        date        not null COMMENT '생일',
     email           varchar(30) not null COMMENT '이메일',
     gender          enum ('FEMALE','MALE') not null COMMENT '성별',
     has_citizenship bit         not null COMMENT '문화 시민증 보우 여부',
     name            varchar(20) not null COMMENT '이름',
     nickname        varchar(30) not null COMMENT '닉네임',
-    social_type     enum ('GOOGLE','KAKAO','NAVER') not null COMMENT '소셜 로그인 타입',
-    user_role       enum ('ROLE_ADMIN','ROLE_USER') not null COMMENT '사용자 권한',
+    social_type     varchar(20) not null COMMENT '소셜 로그인 타입',
+    user_role       varchar(20) not null COMMENT '사용자 권한',
     profile_id      bigint      not null COMMENT '프로필 이미지 아이디',
     primary key (id)
 ) engine=InnoDB COMMENT = '사용자';
@@ -30,7 +31,8 @@ alter table user
 create table community
 (
     id           bigint      not null auto_increment COMMENT 'PK',
-    created_date date        not null COMMENT '생성일',
+    created_date timestamp   not null COMMENT '생성일',
+    updated_date timestamp   not null COMMENT '수정일',
     content      TEXT        not null COMMENT '내용',
     title        varchar(50) not null COMMENT '제목',
     user_id      bigint      not null COMMENT '사용자 아이디',
@@ -43,7 +45,8 @@ alter table community
 create table community_comment
 (
     id                bigint       not null auto_increment COMMENT 'PK',
-    created_date      date         not null COMMENT '생성일',
+    created_date      timestamp    not null COMMENT '생성일',
+    updated_date      timestamp    not null COMMENT '수정일',
     content           varchar(200) not null COMMENT '내용',
     parent_comment_id bigint       not null COMMENT '부모 댓글 아이디',
     user_id           bigint       not null COMMENT '사용자 아이디',
@@ -57,10 +60,10 @@ alter table community_comment
 create table community_file
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
-    file_type          enum ('COMMON','THUMBNAIL') not null COMMENT '파일 타입',
+    file_type          varchar(20)  not null COMMENT '파일 타입',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     community_id       bigint       not null COMMENT '커뮤니티 아이디',
     primary key (id)
@@ -72,6 +75,7 @@ alter table community_file
 create table community_tag
 (
     id           bigint       not null auto_increment COMMENT 'PK',
+    created_date timestamp    not null COMMENT '생성일',
     name         varchar(255) not null COMMENT '태그 이름',
     community_id bigint       not null COMMENT '커뮤니티 아이디',
     primary key (id)
@@ -83,7 +87,8 @@ alter table community_tag
 create table culture_content
 (
     id              bigint       not null auto_increment COMMENT 'PK',
-    created_date    date         not null COMMENT '생성일',
+    created_date    timestamp    not null COMMENT '생성일',
+    updated_date    timestamp    not null COMMENT '수정일',
     city            varchar(20)  not null COMMENT '시',
     county          varchar(20)  not null COMMENT '군',
     detail          varchar(100) not null COMMENT '상세 주소',
@@ -98,7 +103,7 @@ create table culture_content
     start_date      date         not null COMMENT '시작일',
     title           varchar(255) not null COMMENT '제목',
     like_count      integer      not null COMMENT '좋아요 수',
-    status          enum ('ADMIN_REQUIRED','COMPLETED','PREPARING','RECRUITING','REJECTED') not null COMMENT '상태',
+    status          varchar(20) not null COMMENT '상태',
     user_id         bigint       not null COMMENT '사용자 아이디',
     primary key (id)
 ) engine=InnoDB COMMENT = '문화 콘텐츠';
@@ -109,7 +114,8 @@ alter table culture_content
 create table culture_content_comment
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
+    updated_date       timestamp    not null COMMENT '수정일',
     content            varchar(200) not null COMMENT '내용',
     hate_count         integer      not null COMMENT '싫어요 수',
     like_count         integer      not null COMMENT '좋아요 수',
@@ -128,10 +134,10 @@ alter table culture_content_comment
 create table culture_content_file
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
-    file_type          enum ('COMMON','THUMBNAIL') not null COMMENT '파일 타입',
+    file_type          varchar(20)  not null COMMENT '파일 타입',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     culture_content_id bigint       not null COMMENT '문화 콘텐츠 아이디',
     primary key (id)
@@ -143,7 +149,8 @@ alter table culture_content_file
 create table dashboard
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
+    updated_date       timestamp    not null COMMENT '수정일',
     culture_content_id bigint       not null COMMENT '문화 콘텐츠 아이디',
     introduction       varchar(255) not null COMMENT '소개글',
     primary key (id)
@@ -151,11 +158,11 @@ create table dashboard
 
 create table dashboard_user
 (
-    id           bigint not null auto_increment COMMENT 'PK',
-    created_date date   not null COMMENT '생성일',
-    role         enum ('MANAGER','MEMBER') not null COMMENT '권한',
-    user_id      bigint not null COMMENT '사용자 아이디',
-    dashboard_id bigint not null COMMENT '대시보드 아이디',
+    id           bigint      not null auto_increment COMMENT 'PK',
+    created_date timestamp   not null COMMENT '생성일',
+    role         varchar(20) not null COMMENT '권한',
+    user_id      bigint      not null COMMENT '사용자 아이디',
+    dashboard_id bigint      not null COMMENT '대시보드 아이디',
     primary key (id)
 ) engine=InnoDB COMMENT = '대시보드 사용자';
 
@@ -168,7 +175,8 @@ alter table dashboard_user
 create table dashboard_board
 (
     id                bigint      not null auto_increment COMMENT 'PK',
-    created_date      date        not null COMMENT '생성일',
+    created_date      timestamp   not null COMMENT '생성일',
+    updated_date      timestamp   not null COMMENT '수정일',
     content           TEXT        not null COMMENT '내용',
     is_notice         bit         not null COMMENT '공지 여부',
     title             varchar(50) not null COMMENT '제목',
@@ -186,7 +194,8 @@ alter table dashboard_board
 create table dashboard_board_comment
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
+    updated_date       timestamp    not null COMMENT '수정일',
     content            varchar(200) not null COMMENT '내용',
     parent_id          bigint       not null COMMENT '부모 댓글 아이디',
     dashboard_user_id  bigint       not null COMMENT '대시보드 사용자 아이디',
@@ -203,10 +212,10 @@ alter table dashboard_board_comment
 create table dashboard_board_file
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
-    file_type          enum ('COMMON','THUMBNAIL') not null COMMENT '파일 타입',
+    file_type          varchar(20)  not null COMMENT '파일 타입',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     dashboard_board_id bigint       not null COMMENT '대시보드 게시판 아이디',
     primary key (id)
@@ -218,6 +227,8 @@ alter table dashboard_board_file
 create table dashboard_calendar
 (
     id           bigint       not null auto_increment COMMENT 'PK',
+    created_date timestamp    not null COMMENT '생성일',
+    updated_date timestamp    not null COMMENT '수정일',
     content      varchar(255) not null COMMENT '내용',
     date         datetime(6) not null COMMENT '날짜',
     dashboard_id bigint       not null COMMENT '대시보드 아이디',
@@ -230,7 +241,8 @@ alter table dashboard_calendar
 create table dashboard_gallery
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       date         not null COMMENT '생성일',
+    created_date       timestamp    not null COMMENT '생성일',
+    updated_date       timestamp    not null COMMENT '수정일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
@@ -248,11 +260,11 @@ alter table dashboard_gallery
 create table temp_social_auth
 (
     id           bigint       not null auto_increment COMMENT 'PK',
-    created_date date         not null COMMENT '생성일',
+    created_date timestamp    not null COMMENT '생성일',
     birthday     varchar(255) COMMENT '생일',
     email        varchar(255) not null COMMENT '이메일',
-    gender       enum ('MALE','FEMALE') COMMENT '성별',
+    gender       varchar(255) COMMENT '성별',
     name         varchar(255) COMMENT '이름',
-    social_type  enum ('GOOGLE','KAKAO','NAVER') COMMENT '소셜 로그인 타입',
+    social_type  varchar(255) COMMENT '소셜 로그인 타입',
     primary key (id)
 ) engine=InnoDB COMMENT = '임시 소셜 로그인 정보';

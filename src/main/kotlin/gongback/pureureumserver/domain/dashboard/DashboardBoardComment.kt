@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -15,7 +15,7 @@ class DashboardBoardComment(
         name = "dashboard_user_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_comment_dashboard_user_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_comment_dashboard_user_id"),
     )
     val dashboardUser: DashboardUser,
 
@@ -23,5 +23,5 @@ class DashboardBoardComment(
     val content: String,
 
     @Column(nullable = false)
-    val parentId: Long
-) : BaseTimeEntity()
+    val parentId: Long,
+) : BaseUpdatedTimeEntity()

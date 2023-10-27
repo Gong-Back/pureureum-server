@@ -1,9 +1,11 @@
 package gongback.pureureumserver
 
-import gongback.pureureumserver.support.BaseTests.IntegrationTest
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-@IntegrationTest
+@SpringBootTest
+@ActiveProfiles("test")
 class PureureumServerApplicationTests {
     @Test
     fun contextLoads() {

@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -14,5 +14,5 @@ class DashboardUser(
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    val role: DashboardUserRole
-) : BaseTimeEntity()
+    val role: DashboardUserRole,
+) : BaseEntity()

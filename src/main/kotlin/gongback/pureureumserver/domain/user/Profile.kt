@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.user
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
@@ -8,8 +8,8 @@ import jakarta.persistence.Entity
 class Profile(
     fileKey: String,
     contentType: String,
-    originalFileName: String
-) : BaseTimeEntity() {
+    originalFileName: String,
+) : BaseEntity() {
     @Column(nullable = false)
     var fileKey: String = fileKey
         protected set
@@ -27,7 +27,7 @@ class Profile(
             return Profile(
                 "profile/default_profile.png",
                 "image/png",
-                "default_profile.png"
+                "default_profile.png",
             )
         }
     }

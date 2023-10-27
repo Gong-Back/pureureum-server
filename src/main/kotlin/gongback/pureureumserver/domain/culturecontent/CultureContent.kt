@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.culturecontent
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
@@ -27,7 +27,7 @@ class CultureContent(
     files: List<CultureContentFile> = emptyList(),
 
     comments: List<CultureContentComment> = emptyList(),
-) : BaseTimeEntity() {
+) : BaseUpdatedTimeEntity() {
     @Column(nullable = false)
     var likeCount: Int = 0
         protected set
@@ -37,7 +37,7 @@ class CultureContent(
         name = "culture_content_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_culture_content_file_culture_content_id")
+        foreignKey = ForeignKey(name = "fk_culture_content_file_culture_content_id"),
     )
     private val _files: MutableList<CultureContentFile> = files.toMutableList()
 
@@ -46,14 +46,14 @@ class CultureContent(
         name = "culture_content_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_culture_content_comment_culture_content_id")
+        foreignKey = ForeignKey(name = "fk_culture_content_comment_culture_content_id"),
     )
     private val _comments: MutableList<CultureContentComment> = comments.toMutableList()
 
-    val files: MutableList<CultureContentFile>
+    val files: List<CultureContentFile>
         get() = _files
 
-    val comments: MutableList<CultureContentComment>
+    val comments: List<CultureContentComment>
         get() = _comments
 
     val title: String

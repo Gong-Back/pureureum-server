@@ -1,7 +1,7 @@
 package gongback.pureureumserver.support.domain
 
 enum class SocialType(
-    private val description: String
+    private val description: String,
 ) {
     KAKAO("카카오 로그인"),
     GOOGLE("구글 로그인"),

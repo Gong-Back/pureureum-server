@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.auth
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseEntity
 import gongback.pureureumserver.support.domain.Gender
 import gongback.pureureumserver.support.domain.SocialType
 import jakarta.persistence.Column
@@ -24,5 +24,5 @@ class TempSocialAuth(
     val gender: Gender? = null,
 
     @Enumerated(EnumType.STRING)
-    val socialType: SocialType? = null
-) : BaseTimeEntity()
+    val socialType: SocialType? = null,
+) : BaseEntity()

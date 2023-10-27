@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -17,7 +17,7 @@ class DashboardBoard(
         name = "dashboard_user_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_board_user_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_board_user_id"),
     )
     val dashboardUser: DashboardUser,
 
@@ -31,15 +31,15 @@ class DashboardBoard(
 
     comments: List<DashboardBoardComment> = emptyList(),
 
-    files: List<DashboardBoardFile> = emptyList()
+    files: List<DashboardBoardFile> = emptyList(),
 
-) : BaseTimeEntity() {
+) : BaseUpdatedTimeEntity() {
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(
         name = "dashboard_board_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_comment_dashboard_board_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_comment_dashboard_board_id"),
     )
     private val _comments: MutableList<DashboardBoardComment> = comments.toMutableList()
 
@@ -48,13 +48,13 @@ class DashboardBoard(
         name = "dashboard_board_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_file_dashboard_board_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_file_dashboard_board_id"),
     )
     private val _files: MutableList<DashboardBoardFile> = files.toMutableList()
 
-    val comments: MutableList<DashboardBoardComment>
+    val comments: List<DashboardBoardComment>
         get() = _comments
 
-    val files: MutableList<DashboardBoardFile>
+    val files: List<DashboardBoardFile>
         get() = _files
 }

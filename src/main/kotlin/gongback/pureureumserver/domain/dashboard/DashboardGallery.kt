@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -15,7 +15,7 @@ class DashboardGallery(
         name = "dashboard_user_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_gallery_dashboard_user_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_gallery_dashboard_user_id"),
     )
     val dashboardUser: DashboardUser,
 
@@ -27,4 +27,4 @@ class DashboardGallery(
 
     @Column(nullable = false)
     val originalFileName: String,
-) : BaseTimeEntity()
+) : BaseEntity()

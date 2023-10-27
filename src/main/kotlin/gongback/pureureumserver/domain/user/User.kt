@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.user
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import gongback.pureureumserver.support.domain.Gender
 import gongback.pureureumserver.support.domain.SocialType
 import jakarta.persistence.CascadeType
@@ -28,18 +28,18 @@ class User(
     @Column(nullable = false, length = 10)
     val userRole: UserRole,
 
-    profile: Profile = Profile.defaultProfile()
-) : BaseTimeEntity() {
+    profile: Profile = Profile.defaultProfile(),
+) : BaseUpdatedTimeEntity() {
     @OneToOne(
         fetch = FetchType.LAZY,
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
-        orphanRemoval = true
+        orphanRemoval = true,
     )
     @JoinColumn(
         name = "profile_id",
         nullable = false,
         unique = true,
-        foreignKey = ForeignKey(name = "fk_user_profile_id")
+        foreignKey = ForeignKey(name = "fk_user_profile_id"),
     )
     var profile: Profile = profile
         protected set

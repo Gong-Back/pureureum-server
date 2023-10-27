@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.community
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseEntity
 import gongback.pureureumserver.support.domain.FileType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -20,5 +20,5 @@ class CommunityFile(
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val fileType: FileType = FileType.COMMON
-) : BaseTimeEntity()
+    val fileType: FileType = FileType.COMMON,
+) : BaseEntity()

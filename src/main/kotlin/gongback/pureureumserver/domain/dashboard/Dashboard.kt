@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -25,13 +25,13 @@ class Dashboard(
 
     boards: List<DashboardBoard> = emptyList(),
 
-    ) : BaseTimeEntity() {
+) : BaseUpdatedTimeEntity() {
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(
         name = "dashboard_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_calendar_dashboard_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_calendar_dashboard_id"),
     )
     private val _calendars: MutableList<DashboardCalendar> = calendars.toMutableList()
 
@@ -40,7 +40,7 @@ class Dashboard(
         name = "dashboard_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_user_dashboard_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_user_dashboard_id"),
     )
     private val _users: MutableList<DashboardUser> = users.toMutableList()
 
@@ -49,7 +49,7 @@ class Dashboard(
         name = "dashboard_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_gallery_dashboard_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_gallery_dashboard_id"),
     )
     private val _galleries: MutableList<DashboardGallery> = galleries.toMutableList()
 
@@ -58,19 +58,19 @@ class Dashboard(
         name = "dashboard_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_dashboard_board_dashboard_id")
+        foreignKey = ForeignKey(name = "fk_dashboard_board_dashboard_id"),
     )
     private val _boards: MutableList<DashboardBoard> = boards.toMutableList()
 
-    val calendars: MutableList<DashboardCalendar>
+    val calendars: List<DashboardCalendar>
         get() = _calendars
 
-    val users: MutableList<DashboardUser>
+    val users: List<DashboardUser>
         get() = _users
 
-    val galleries: MutableList<DashboardGallery>
+    val galleries: List<DashboardGallery>
         get() = _galleries
 
-    val boards: MutableList<DashboardBoard>
+    val boards: List<DashboardBoard>
         get() = _boards
 }

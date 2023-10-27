@@ -24,5 +24,5 @@ class CultureContentAddress(
     val longitude: String,
 
     @Column(length = 20)
-    val latitude: String
+    val latitude: String,
 )

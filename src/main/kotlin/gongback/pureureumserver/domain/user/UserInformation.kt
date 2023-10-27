@@ -25,5 +25,5 @@ data class UserInformation(
     @Column(unique = true, nullable = false, length = 30)
     var nickname: String,
 
-    val hasCitizenship: Boolean
+    val hasCitizenship: Boolean,
 )

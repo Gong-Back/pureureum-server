@@ -9,7 +9,6 @@ plugins {
     kotlin("plugin.jpa") version "1.8.22"
 }
 
-
 allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
@@ -56,10 +55,8 @@ dependencies {
     implementation("org.opensearch.client:spring-data-opensearch-starter:1.2.0") {
         exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
     }
-    implementation("org.opensearch.client:spring-data-opensearch-test-autoconfigure:1.2.0") {
-        exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
-    }
 
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

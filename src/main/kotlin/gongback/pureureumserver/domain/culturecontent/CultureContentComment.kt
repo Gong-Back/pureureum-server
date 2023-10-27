@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.culturecontent
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
@@ -13,8 +13,8 @@ class CultureContentComment(
     val content: String,
 
     @Column(nullable = false)
-    val parentId: Long
-) : BaseTimeEntity() {
+    val parentId: Long,
+) : BaseUpdatedTimeEntity() {
     @Column(nullable = false)
     var likeCount: Int = 0
         protected set

@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.dashboard
 
-import gongback.pureureumserver.support.domain.BaseEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import java.time.LocalDateTime
@@ -12,5 +12,5 @@ class DashboardCalendar(
     val date: LocalDateTime,
 
     @Column(nullable = false)
-    val content: String
-) : BaseEntity()
+    val content: String,
+) : BaseUpdatedTimeEntity()

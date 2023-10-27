@@ -1,6 +1,6 @@
 package gongback.pureureumserver.domain.community
 
-import gongback.pureureumserver.support.domain.BaseTimeEntity
+import gongback.pureureumserver.support.domain.BaseUpdatedTimeEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -23,15 +23,15 @@ class Community(
 
     comments: List<CommunityComment> = emptyList(),
 
-    files: List<CommunityFile> = emptyList()
+    files: List<CommunityFile> = emptyList(),
 
-) : BaseTimeEntity() {
+) : BaseUpdatedTimeEntity() {
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(
         name = "community_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_community_tag_community_id")
+        foreignKey = ForeignKey(name = "fk_community_tag_community_id"),
     )
     private val _tags: MutableList<CommunityTag> = tags.toMutableList()
 
@@ -40,7 +40,7 @@ class Community(
         name = "community_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_community_comment_community_id")
+        foreignKey = ForeignKey(name = "fk_community_comment_community_id"),
     )
     private val _comments: MutableList<CommunityComment> = comments.toMutableList()
 
@@ -49,16 +49,16 @@ class Community(
         name = "community_id",
         nullable = false,
         updatable = false,
-        foreignKey = ForeignKey(name = "fk_community_file_community_id")
+        foreignKey = ForeignKey(name = "fk_community_file_community_id"),
     )
     private val _files: MutableList<CommunityFile> = files.toMutableList()
 
-    val tags: MutableList<CommunityTag>
+    val tags: List<CommunityTag>
         get() = _tags
 
-    val comments: MutableList<CommunityComment>
+    val comments: List<CommunityComment>
         get() = _comments
 
-    val files: MutableList<CommunityFile>
+    val files: List<CommunityFile>
         get() = _files
 }
