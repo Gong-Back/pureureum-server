@@ -1,0 +1,10 @@
+---
+spring.config.activate.on-profile: local, prod
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha # 사전순 정렬
+    operations-sorter: alpha # 사전순 정렬
+    display-request-duration: true
