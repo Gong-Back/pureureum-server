@@ -5,6 +5,7 @@ spring:
       - database
       - flyway
       - open-search
+      - springdoc
 
 server:
   error:
