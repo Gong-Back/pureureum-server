@@ -45,15 +45,15 @@ dependencies {
     // redis
     implementation("org.redisson:redisson-spring-boot-starter:3.23.4")
 
-	// opensearch
-	implementation("org.opensearch.client:spring-data-opensearch-starter:1.2.0") {
-		exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
-	}
-	implementation("org.opensearch.client:spring-data-opensearch-test-autoconfigure:1.2.0") {
-		exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
-	}
+    // opensearch
+    implementation("org.opensearch.client:spring-data-opensearch-starter:1.2.0") {
+        exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
+    }
+    implementation("org.opensearch.client:spring-data-opensearch-test-autoconfigure:1.2.0") {
+        exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
+    }
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks {

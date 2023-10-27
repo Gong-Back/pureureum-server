@@ -18,14 +18,17 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @Configuration(proxyBeanMethods = false)
 @EnableElasticsearchRepositories
 class OpenSearchConfig(
-    private val openSearchProperties: OpenSearchProperties
+    private val openSearchProperties: OpenSearchProperties,
 ) : AbstractOpenSearchConfiguration() {
     @Bean
     override fun opensearchClient(): RestHighLevelClient {
         val credentialsProvider = BasicCredentialsProvider().apply {
             setCredentials(
                 AuthScope.ANY,
-                UsernamePasswordCredentials(openSearchProperties.username, openSearchProperties.password)
+                UsernamePasswordCredentials(
+                    openSearchProperties.username,
+                    openSearchProperties.password,
+                ),
             )
         }
         val restClientBuilder: RestClientBuilder = RestClient.builder(
@@ -33,7 +36,7 @@ class OpenSearchConfig(
                 openSearchProperties.hostname,
                 openSearchProperties.port,
                 openSearchProperties.scheme,
-            )
+            ),
         ).setHttpClientConfigCallback { httpClientBuilder ->
             httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
         }
