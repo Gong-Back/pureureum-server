@@ -1,0 +1,13 @@
+---
+spring.config.activate.on-profile: local
+
+open-search:
+  indices:
+    users: local-users
+
+---
+spring.config.activate.on-profile: prod
+
+open-search:
+  indices:
+    users: prod-users

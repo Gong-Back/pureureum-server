@@ -1,6 +1,11 @@
 spring:
-  application:
-    name: pureureum
+  profiles:
+    include:
+      - sentry
+      - database
+      - flyway
+      - open-search
+      - springdoc
 
 server:
   error:
