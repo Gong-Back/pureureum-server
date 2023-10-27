@@ -26,8 +26,6 @@ spring:
 ---
 spring.config.activate.on-profile: local
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
       hibernate:
