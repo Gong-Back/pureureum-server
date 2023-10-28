@@ -27,6 +27,7 @@ class DashboardBoard(
     @Column(nullable = false, columnDefinition = "TEXT")
     val content: String,
 
+    @Column(nullable = false)
     val isNotice: Boolean = false,
 
     comments: List<DashboardBoardComment> = emptyList(),
