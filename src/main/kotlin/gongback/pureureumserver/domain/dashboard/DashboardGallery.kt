@@ -27,4 +27,6 @@ class DashboardGallery(
 
     @Column(nullable = false)
     val originalFileName: String,
+
+    val caption: String,
 ) : BaseEntity()

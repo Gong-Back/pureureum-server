@@ -6,7 +6,7 @@ create table profile
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     primary key (id)
-) engine=InnoDB COMMENT = '프로필 이미지';
+) engine = InnoDB COMMENT = '프로필 이미지';
 
 create table user
 (
@@ -15,7 +15,7 @@ create table user
     updated_date    timestamp   not null COMMENT '수정일',
     birthday        date        not null COMMENT '생일',
     email           varchar(30) not null COMMENT '이메일',
-    gender          enum ('FEMALE','MALE') not null COMMENT '성별',
+    gender          varchar(10) not null COMMENT '성별',
     has_citizenship bit         not null COMMENT '문화 시민증 보우 여부',
     name            varchar(20) not null COMMENT '이름',
     nickname        varchar(30) not null COMMENT '닉네임',
@@ -23,7 +23,7 @@ create table user
     user_role       varchar(20) not null COMMENT '사용자 권한',
     profile_id      bigint      not null COMMENT '프로필 이미지 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '사용자';
+) engine = InnoDB COMMENT = '사용자';
 
 alter table user
     add constraint fk_user_profile_id foreign key (profile_id) references profile (id);
@@ -37,22 +37,22 @@ create table community
     title        varchar(50) not null COMMENT '제목',
     user_id      bigint      not null COMMENT '사용자 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '커뮤니티';
+) engine = InnoDB COMMENT = '커뮤니티';
 
 alter table community
     add constraint fk_community_user_id foreign key (user_id) references user (id);
 
 create table community_comment
 (
-    id                bigint       not null auto_increment COMMENT 'PK',
-    created_date      timestamp    not null COMMENT '생성일',
-    updated_date      timestamp    not null COMMENT '수정일',
-    content           varchar(200) not null COMMENT '내용',
-    parent_comment_id bigint       not null COMMENT '부모 댓글 아이디',
-    user_id           bigint       not null COMMENT '사용자 아이디',
-    community_id      bigint       not null COMMENT '커뮤니티 아이디',
+    id           bigint       not null auto_increment COMMENT 'PK',
+    created_date timestamp    not null COMMENT '생성일',
+    updated_date timestamp    not null COMMENT '수정일',
+    content      varchar(200) not null COMMENT '내용',
+    parent_id    bigint       not null COMMENT '부모 댓글 아이디',
+    user_id      bigint       not null COMMENT '사용자 아이디',
+    community_id bigint       not null COMMENT '커뮤니티 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '커뮤니티 댓글';
+) engine = InnoDB COMMENT = '커뮤니티 댓글';
 
 alter table community_comment
     add constraint fk_community_comment_community_id foreign key (community_id) references community (id);
@@ -67,7 +67,7 @@ create table community_file
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     community_id       bigint       not null COMMENT '커뮤니티 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '커뮤니티 파일';
+) engine = InnoDB COMMENT = '커뮤니티 파일';
 
 alter table community_file
     add constraint fk_community_file_community_id foreign key (community_id) references community (id);
@@ -79,7 +79,7 @@ create table community_tag
     name         varchar(255) not null COMMENT '태그 이름',
     community_id bigint       not null COMMENT '커뮤니티 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '커뮤니티 태그';
+) engine = InnoDB COMMENT = '커뮤니티 태그';
 
 alter table community_tag
     add constraint fk_community_tag_community_id foreign key (community_id) references community (id);
@@ -103,10 +103,10 @@ create table culture_content
     start_date      date         not null COMMENT '시작일',
     title           varchar(255) not null COMMENT '제목',
     like_count      integer      not null COMMENT '좋아요 수',
-    status          varchar(20) not null COMMENT '상태',
+    status          varchar(20)  not null COMMENT '상태',
     user_id         bigint       not null COMMENT '사용자 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '문화 콘텐츠';
+) engine = InnoDB COMMENT = '문화 콘텐츠';
 
 alter table culture_content
     add constraint fk_culture_content_user_id foreign key (user_id) references user (id);
@@ -123,7 +123,7 @@ create table culture_content_comment
     user_id            bigint       not null COMMENT '사용자 아이디',
     culture_content_id bigint       not null COMMENT '문화 콘텐츠 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '문화 콘텐츠 댓글';
+) engine = InnoDB COMMENT = '문화 콘텐츠 댓글';
 
 alter table culture_content_comment
     add constraint fk_culture_content_comment_culture_content_id foreign key (culture_content_id) references culture_content (id);
@@ -141,20 +141,20 @@ create table culture_content_file
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     culture_content_id bigint       not null COMMENT '문화 콘텐츠 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '문화 콘텐츠 파일';
+) engine = InnoDB COMMENT = '문화 콘텐츠 파일';
 
 alter table culture_content_file
     add constraint fk_culture_content_file_culture_content_id foreign key (culture_content_id) references culture_content (id);
 
 create table dashboard
 (
-    id                 bigint       not null auto_increment COMMENT 'PK',
-    created_date       timestamp    not null COMMENT '생성일',
-    updated_date       timestamp    not null COMMENT '수정일',
-    culture_content_id bigint       not null COMMENT '문화 콘텐츠 아이디',
-    introduction       varchar(255) not null COMMENT '소개글',
+    id                 bigint    not null auto_increment COMMENT 'PK',
+    created_date       timestamp not null COMMENT '생성일',
+    updated_date       timestamp not null COMMENT '수정일',
+    culture_content_id bigint    not null COMMENT '문화 콘텐츠 아이디',
+    introduction       varchar(255) COMMENT '소개글',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드';
+) engine = InnoDB COMMENT = '대시보드';
 
 create table dashboard_user
 (
@@ -164,7 +164,7 @@ create table dashboard_user
     user_id      bigint      not null COMMENT '사용자 아이디',
     dashboard_id bigint      not null COMMENT '대시보드 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드 사용자';
+) engine = InnoDB COMMENT = '대시보드 사용자';
 
 alter table dashboard_user
     add constraint fk_dashboard_user_dashboard_id foreign key (dashboard_id) references dashboard (id);
@@ -183,7 +183,7 @@ create table dashboard_board
     dashboard_user_id bigint      not null COMMENT '대시보드 사용자 아이디',
     dashboard_id      bigint      not null COMMENT '대시보드 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드 게시판';
+) engine = InnoDB COMMENT = '대시보드 게시판';
 
 alter table dashboard_board
     add constraint fk_dashboard_board_dashboard_user_id foreign key (dashboard_user_id) references dashboard_user (id);
@@ -201,7 +201,7 @@ create table dashboard_board_comment
     dashboard_user_id  bigint       not null COMMENT '대시보드 사용자 아이디',
     dashboard_board_id bigint       not null COMMENT '대시보드 게시판 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드 게시판 댓글';
+) engine = InnoDB COMMENT = '대시보드 게시판 댓글';
 
 alter table dashboard_board_comment
     add constraint fk_dashboard_board_comment_dashboard_user_id foreign key (dashboard_user_id) references dashboard_user (id);
@@ -219,7 +219,7 @@ create table dashboard_board_file
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     dashboard_board_id bigint       not null COMMENT '대시보드 게시판 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드 게시판 파일';
+) engine = InnoDB COMMENT = '대시보드 게시판 파일';
 
 alter table dashboard_board_file
     add constraint fk_dashboard_board_file_dashboard_board_id foreign key (dashboard_board_id) references dashboard_board (id);
@@ -230,10 +230,10 @@ create table dashboard_calendar
     created_date timestamp    not null COMMENT '생성일',
     updated_date timestamp    not null COMMENT '수정일',
     content      varchar(255) not null COMMENT '내용',
-    date         datetime(6) not null COMMENT '날짜',
+    date         datetime(6)  not null COMMENT '날짜',
     dashboard_id bigint       not null COMMENT '대시보드 아이디',
     primary key (id)
-) engine=InnoDB comment = '대시보드 캘린더';
+) engine = InnoDB comment = '대시보드 캘린더';
 
 alter table dashboard_calendar
     add constraint fk_dashboard_calendar_dashboard_id foreign key (dashboard_id) references dashboard (id);
@@ -242,14 +242,14 @@ create table dashboard_gallery
 (
     id                 bigint       not null auto_increment COMMENT 'PK',
     created_date       timestamp    not null COMMENT '생성일',
-    updated_date       timestamp    not null COMMENT '수정일',
     content_type       varchar(255) not null COMMENT '파일 컨텐츠 타입',
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
+    caption            varchar(50) COMMENT '이미지 한 줄 소개',
     dashboard_user_id  bigint       not null COMMENT '대시보드 사용자 아이디',
     dashboard_id       bigint       not null COMMENT '대시보드 아이디',
     primary key (id)
-) engine=InnoDB COMMENT = '대시보드 갤러리';
+) engine = InnoDB COMMENT = '대시보드 갤러리';
 
 alter table dashboard_gallery
     add constraint fk_dashboard_board_gallery_dashboard_user_id foreign key (dashboard_user_id) references dashboard_user (id);
@@ -267,4 +267,4 @@ create table temp_social_auth
     name         varchar(255) COMMENT '이름',
     social_type  varchar(255) COMMENT '소셜 로그인 타입',
     primary key (id)
-) engine=InnoDB COMMENT = '임시 소셜 로그인 정보';
+) engine = InnoDB COMMENT = '임시 소셜 로그인 정보';

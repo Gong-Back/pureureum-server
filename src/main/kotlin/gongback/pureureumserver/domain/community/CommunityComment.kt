@@ -13,5 +13,5 @@ class CommunityComment(
     val content: String,
 
     @Column(nullable = false)
-    val parentCommentId: Long,
+    val parentId: Long,
 ) : BaseUpdatableEntity()
