@@ -1,8 +1,5 @@
 package gongback.pureureumserver.infra.file
 
-import java.io.InputStream
-import java.net.URL
-import java.util.Date
 import com.amazonaws.HttpMethod
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.services.s3.AmazonS3
@@ -14,7 +11,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import gongback.pureureumserver.service.FileClient
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
-
+import java.io.InputStream
+import java.net.URL
+import java.util.Date
 
 @Profile("!test")
 @Component
@@ -53,7 +52,7 @@ class AwsS3Client(
             .apply {
                 addRequestParameter(
                     Headers.S3_CANNED_ACL,
-                    CannedAccessControlList.PublicRead.toString()
+                    CannedAccessControlList.PublicRead.toString(),
                 )
             }
 

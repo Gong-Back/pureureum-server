@@ -1,9 +1,9 @@
 package gongback.pureureumserver.service
 
-import java.util.UUID
 import gongback.pureureumserver.support.constant.FilePackage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 @Component
 class FileKeyGenerator {
