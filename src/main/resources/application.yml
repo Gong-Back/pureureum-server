@@ -6,6 +6,9 @@ spring:
       - flyway
       - open-search
       - springdoc
+  servlet:
+    multipart:
+      max-file-size: 20MB
 
 server:
   error:
