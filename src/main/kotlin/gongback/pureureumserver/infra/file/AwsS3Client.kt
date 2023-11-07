@@ -25,14 +25,14 @@ class AwsS3Client(
         .withCredentials(AWSStaticCredentialsProvider(awsS3Properties.awsCredentials))
         .build()
 
-    override fun getPreassignedUrl(fileKey: String): URL = execute {
+    override fun getImageUrl(fileKey: String): URL = execute {
         amazonS3.generatePresignedUrl(getGeneratePreSignedUrlRequest(fileKey))
     }
 
     override fun uploadFile(fileKey: String, fileStream: InputStream, fileSize: Long, fileExtension: String) {
         val objectMetadata = ObjectMetadata().apply {
             contentLength = fileSize
-            contentType = getFileContentType(fileExtension)
+            contentType = getImageContentType(fileExtension)
         }
         execute {
             amazonS3.putObject(awsS3Properties.bucket, fileKey, fileStream, objectMetadata)
@@ -61,7 +61,7 @@ class AwsS3Client(
         return Date(System.currentTimeMillis() + expirationTime)
     }
 
-    private fun getFileContentType(fileExtension: String) = "image/$fileExtension"
+    private fun getImageContentType(fileExtension: String) = "image/$fileExtension"
 
     private fun <T> execute(operation: () -> T): T {
         return runCatching { operation() }

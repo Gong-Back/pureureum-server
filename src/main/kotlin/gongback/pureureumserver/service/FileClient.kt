@@ -4,7 +4,7 @@ import java.io.InputStream
 import java.net.URL
 
 interface FileClient {
-    fun getPreassignedUrl(fileKey: String): URL
+    fun getImageUrl(fileKey: String): URL
 
     fun uploadFile(fileKey: String, fileStream: InputStream, fileSize: Long, fileExtension: String)
 

@@ -11,7 +11,8 @@ class FileKeyGenerator {
     lateinit var activeProfile: String
 
     fun generate(filePackage: FilePackage, fileExtension: String): String {
-        return "${getFilePackage(filePackage)}/${UUID.randomUUID()}.$fileExtension"
+        val fileKey = "${getFilePackage(filePackage)}/${UUID.randomUUID()}.$fileExtension"
+        return fileKey
     }
 
     private fun getFilePackage(filePackage: FilePackage): String {

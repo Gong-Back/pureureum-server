@@ -1,8 +1,8 @@
 package gongback.pureureumserver.controller.test
 
 import gongback.pureureumserver.service.FileClient
-import gongback.pureureumserver.service.FileExtractor
 import gongback.pureureumserver.service.FileKeyGenerator
+import gongback.pureureumserver.service.MultipartFileExtractor
 import gongback.pureureumserver.support.constant.FilePackage
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.MediaType
@@ -21,12 +21,12 @@ class FileTestController(
     private val fileKeyGenerator: FileKeyGenerator,
 ) {
     @PostMapping("/file-upload-test", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun fileUploadTest(@RequestPart("file") file: MultipartFile): ResponseEntity<String> {
-        val fileExtension = FileExtractor.extractExtension(file.originalFilename!!)
-        val fileKey = fileKeyGenerator.generate(FilePackage.COMMON, fileExtension)
-        fileClient.uploadFile(fileKey, file.inputStream, file.size, fileExtension)
+    fun fileUploadTest(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<String> {
+        val fileExtension = MultipartFileExtractor.extractExtension(multipartFile)
+        val fileKey = fileKeyGenerator.generate(FilePackage.PROFILE, fileExtension)
+        fileClient.uploadFile(fileKey, multipartFile.inputStream, multipartFile.size, fileExtension)
 
-        val preassignedUrl = fileClient.getPreassignedUrl(fileKey)
+        val preassignedUrl = fileClient.getImageUrl(fileKey)
         return ResponseEntity.ok(preassignedUrl.toString())
     }
 
