@@ -11,11 +11,12 @@ class FileKeyGenerator {
     lateinit var activeProfile: String
 
     fun generate(filePackage: FilePackage, fileExtension: String): String {
-        val fileKey = "${getFilePackage(filePackage)}/${UUID.randomUUID()}.$fileExtension"
-        return fileKey
+        val uploadFilePath = getUploadFilePath(filePackage)
+        val randomKey = UUID.randomUUID()
+        return "$uploadFilePath/$randomKey.$fileExtension"
     }
 
-    private fun getFilePackage(filePackage: FilePackage): String {
+    private fun getUploadFilePath(filePackage: FilePackage): String {
         return "$activeProfile-$filePackage"
     }
 }
