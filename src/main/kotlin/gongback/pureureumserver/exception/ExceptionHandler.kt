@@ -7,6 +7,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 class ExceptionHandler : ResponseEntityExceptionHandler() {
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun illegalArgumentExceptionException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
+        logger.error("[IllegalArgumentException]: ${ex.message}", ex)
+        val invalidRequestErrorCode = ErrorCode.INVALID_REQUEST
+        return ResponseEntity.status(invalidRequestErrorCode.httpStatus)
+            .body(ErrorResponse.of(invalidRequestErrorCode, ex.message))
+    }
+
     @ExceptionHandler(RuntimeException::class)
     fun runtimeException(ex: RuntimeException): ResponseEntity<ErrorResponse> {
         logger.error("[RuntimeException]: ${ex.message}", ex)
