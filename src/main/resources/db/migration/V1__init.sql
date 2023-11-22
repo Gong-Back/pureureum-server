@@ -8,7 +8,7 @@ create table profile
     primary key (id)
 ) engine = InnoDB COMMENT = '프로필 이미지';
 
-create table user
+create table users
 (
     id              bigint      not null auto_increment COMMENT 'PK',
     created_date    timestamp   not null COMMENT '생성일',
@@ -25,7 +25,7 @@ create table user
     primary key (id)
 ) engine = InnoDB COMMENT = '사용자';
 
-alter table user
+alter table users
     add constraint fk_user_profile_id foreign key (profile_id) references profile (id);
 
 create table cultural_event

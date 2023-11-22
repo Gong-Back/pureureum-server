@@ -13,9 +13,11 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.ForeignKey
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
 import java.time.LocalDate
 
 @Entity
+@Table(name = "users")
 class User(
     @Embedded
     val information: UserInformation,
