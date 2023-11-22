@@ -62,6 +62,12 @@ dependencies {
     // springdoc
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
+    // http interface
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // kotlin-jdsl
+    implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl-jakarta:2.2.1.RELEASE")
+
     // aws s3
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 
