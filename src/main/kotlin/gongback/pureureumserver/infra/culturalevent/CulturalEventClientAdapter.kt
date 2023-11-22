@@ -23,7 +23,8 @@ class CulturalEventClientAdapter(
     private fun toCulturalEventResponse(seongdongCulturalEventResponse: SeongdongCulturalEventResponse): CulturalEventResponse {
         val culturalEventDtos = seongdongCulturalEventResponse.seoulOpenCulturalEventDtos
             .filter {
-                it.serviceStartDateTime != null && it.serviceEndDateTime != null && it.registerStartDateTime != null && it.registerEndDateTime != null
+                it.serviceStartDateTime != null && it.serviceEndDateTime != null &&
+                    it.registerStartDateTime != null && it.registerEndDateTime != null
             }
             .map {
                 CulturalEventDto(

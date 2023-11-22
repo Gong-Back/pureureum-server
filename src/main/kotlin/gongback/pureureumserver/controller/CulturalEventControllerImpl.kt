@@ -39,5 +39,4 @@ class CulturalEventControllerImpl(
         val response = culturalEventService.getMyAttendedCulturalEvents()
         return ResponseEntity.ok(response)
     }
-
 }
