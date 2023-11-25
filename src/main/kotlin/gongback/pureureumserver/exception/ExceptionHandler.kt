@@ -1,5 +1,8 @@
 package gongback.pureureumserver.exception
 
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -13,6 +16,17 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         val invalidRequestErrorCode = ErrorCode.INVALID_REQUEST
         return ResponseEntity.status(invalidRequestErrorCode.httpStatus)
             .body(ErrorResponse.of(invalidRequestErrorCode, ex.message))
+    }
+
+    @ExceptionHandler(JwtException::class)
+    fun handleJwtException(
+        ex: JwtException,
+        httpServletRequest: HttpServletRequest,
+        httpServletResponse: HttpServletResponse,
+    ): ResponseEntity<Any> {
+        logger.warn("[JwtException] ", ex)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse.of(ex.code, ex.message))
     }
 
     @ExceptionHandler(RuntimeException::class)
