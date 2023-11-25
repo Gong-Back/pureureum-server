@@ -22,8 +22,18 @@ class LoginUserIdResolver(
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?,
-    ): Long {
-        val bearerToken = webRequest.getHeader(HttpHeaders.AUTHORIZATION) ?: throw JwtNotExistsException()
-        return jwtTokenProvider.getSubject(bearerToken)
+    ): Long? {
+        val annotation = parameter.getParameterAnnotation(LoginUserId::class.java)
+        if (annotation?.required == true) {
+            val bearerToken = getBearerToken(webRequest) ?: throw JwtNotExistsException()
+            return jwtTokenProvider.getSubject(bearerToken)
+        }
+
+        val bearerToken = getBearerToken(webRequest)
+        bearerToken?.let {
+            return jwtTokenProvider.getSubject(it)
+        } ?: return null
     }
+
+    private fun getBearerToken(webRequest: NativeWebRequest) = webRequest.getHeader(HttpHeaders.AUTHORIZATION)
 }

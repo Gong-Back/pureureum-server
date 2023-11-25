@@ -1,5 +1,7 @@
 package gongback.pureureumserver.service
 
+import gongback.pureureumserver.domain.culturalevent.CulturalEventRepository
+import gongback.pureureumserver.domain.culturalevent.getMyAttendedCulturalEvents
 import gongback.pureureumserver.domain.user.Profile
 import gongback.pureureumserver.domain.user.UserBadge
 import gongback.pureureumserver.domain.user.UserRepository
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile
 class UserService(
     private val fileClient: FileClient,
     private val userRepository: UserRepository,
+    private val culturalEventRepository: CulturalEventRepository,
     private val fileKeyGenerator: FileKeyGenerator,
 ) {
 
@@ -75,7 +78,8 @@ class UserService(
         val user = userRepository.getReferenceById(userId)
         require(user.hasCitizenship) { "문화 시민증이 없는 사용자입니다" }
         val profileUrl = fileClient.getImageUrl(user.profile.file.fileKey)
-        return CitizenshipResponse.of(user, profileUrl)
+        val attendedCulturalEventCount = culturalEventRepository.getMyAttendedCulturalEvents().count()
+        return CitizenshipResponse.of(user, profileUrl, attendedCulturalEventCount)
     }
 
     private fun validateNickname(it: String) {

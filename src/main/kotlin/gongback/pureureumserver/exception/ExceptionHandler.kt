@@ -1,5 +1,6 @@
 package gongback.pureureumserver.exception
 
+import gongback.pureureumserver.service.ForbiddenException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
@@ -11,11 +12,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 class ExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(IllegalArgumentException::class)
-    fun illegalArgumentExceptionException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
+    fun illegalArgumentException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
         logger.error("[IllegalArgumentException]: ${ex.message}", ex)
         val invalidRequestErrorCode = ErrorCode.INVALID_REQUEST
         return ResponseEntity.status(invalidRequestErrorCode.httpStatus)
             .body(ErrorResponse.of(invalidRequestErrorCode, ex.message))
+    }
+
+    @ExceptionHandler(ForbiddenException::class)
+    fun forbiddenException(ex: ForbiddenException): ResponseEntity<ErrorResponse> {
+        logger.error("[ForbiddenException]: ${ex.message}", ex)
+        val forbiddenErrorCode = ErrorCode.FORBIDDEN
+        return ResponseEntity.status(forbiddenErrorCode.httpStatus)
+            .body(ErrorResponse.of(forbiddenErrorCode, ex.message))
+    }
+
+    @ExceptionHandler(NoSuchElementException::class)
+    fun noSuchElementException(ex: NoSuchElementException): ResponseEntity<ErrorResponse> {
+        logger.error("[NoSuchElementException]: ${ex.message}", ex)
+        val notFoundErrorCode = ErrorCode.NOT_FOUND_RESOURCE
+        return ResponseEntity.status(notFoundErrorCode.httpStatus)
+            .body(ErrorResponse.of(notFoundErrorCode, ex.message))
     }
 
     @ExceptionHandler(JwtException::class)

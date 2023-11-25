@@ -1,0 +1,43 @@
+package gongback.pureureumserver.service
+
+import gongback.pureureumserver.domain.suggestion.SuggestionSortType
+import gongback.pureureumserver.service.dto.SuggestionRequest
+import gongback.pureureumserver.service.dto.SuggestionResponse
+import gongback.pureureumserver.service.dto.SuggestionSliceResponse
+import org.springframework.stereotype.Component
+
+@Component
+class SuggestionFacade(
+    private val suggestionService: SuggestionService,
+    private val lockTemplate: LockTemplate,
+) {
+    fun createSuggestion(suggestionRequest: SuggestionRequest, loginUserId: Long) =
+        suggestionService.createSuggestion(suggestionRequest, loginUserId)
+
+    fun getSuggestion(suggestionId: Long): SuggestionResponse =
+        suggestionService.getSuggestion(suggestionId)
+
+    fun getSuggestions(
+        size: Int,
+        lastId: Long?,
+        sortType: SuggestionSortType,
+        loginUserId: Long?,
+    ): SuggestionSliceResponse =
+        suggestionService.getSuggestions(size, lastId, sortType, loginUserId)
+
+    fun deleteSuggestion(suggestionId: Long, loginUserId: Long) {
+        suggestionService.deleteSuggestion(suggestionId, loginUserId)
+    }
+
+    fun addVote(suggestionId: Long, suggestionVoteId: Long, loginUserId: Long) {
+        lockTemplate.executeWithRetry(suggestionVoteId.toString()) {
+            suggestionService.addSuggestionVote(suggestionId, suggestionVoteId, loginUserId)
+        }
+    }
+
+    fun cancelVote(suggestionId: Long, suggestionVoteId: Long, loginUserId: Long) {
+        lockTemplate.executeWithRetry(suggestionVoteId.toString()) {
+            suggestionService.cancelSuggestionVote(suggestionId, suggestionVoteId, loginUserId)
+        }
+    }
+}
