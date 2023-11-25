@@ -10,10 +10,12 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
 import java.util.Date
 import javax.crypto.SecretKey
+import org.springframework.context.annotation.Profile
 
 private const val BEARER = "Bearer"
 
 @Component
+@Profile("!test")
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
 ) {
