@@ -7,10 +7,10 @@ import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.util.Date
 import javax.crypto.SecretKey
-import org.springframework.context.annotation.Profile
 
 private const val BEARER = "Bearer"
 
