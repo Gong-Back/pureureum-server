@@ -3,6 +3,7 @@ package gongback.pureureumserver.service
 import gongback.pureureumserver.domain.suggestion.Suggestion
 import gongback.pureureumserver.domain.suggestion.SuggestionRepository
 import gongback.pureureumserver.domain.suggestion.SuggestionSortType
+import gongback.pureureumserver.domain.suggestion.SuggestionStatus
 import gongback.pureureumserver.domain.suggestion.getSuggestionById
 import gongback.pureureumserver.domain.suggestionvoterecord.SuggestionVoteRecord
 import gongback.pureureumserver.domain.suggestionvoterecord.SuggestionVoteRecordRepository
@@ -41,9 +42,10 @@ class SuggestionService(
         size: Int,
         lastId: Long?,
         sortType: SuggestionSortType,
+        status: SuggestionStatus,
         loginUserId: Long?,
     ): SuggestionSliceResponse {
-        val suggestionSlice = suggestionRepository.findSliceBy(size, lastId, sortType)
+        val suggestionSlice = suggestionRepository.findSliceBy(size, lastId, sortType, status)
         return getSuggestionSliceResponse(size, loginUserId, suggestionSlice)
     }
 
