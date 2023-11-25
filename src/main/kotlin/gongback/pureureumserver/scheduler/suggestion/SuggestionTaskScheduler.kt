@@ -14,7 +14,6 @@ private const val DEFAULT_TIME_ZONE = "Asia/Seoul"
 private const val DEFAULT_SUGGESTION_TASK_LOCK_KEY = "updateSuggestionStatus"
 private val log = LoggerFactory.getLogger(SuggestionTaskScheduler::class.java)
 
-
 @Service
 class SuggestionTaskScheduler(
     private val suggestionRepository: SuggestionRepository,

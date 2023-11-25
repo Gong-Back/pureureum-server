@@ -142,3 +142,8 @@ create table suggestion_vote_record
 
 alter table suggestion_vote_record
     add constraint fk_suggestion_vote_record_suggestion_id foreign key (suggestion_id) references suggestion (id);
+
+alter table suggestion
+    add column status varchar(30) not null;
+
+CREATE INDEX idx_end_date_on_cultural_event ON suggestion (end_date);
