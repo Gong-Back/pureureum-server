@@ -4,8 +4,10 @@ import gongback.pureureumserver.support.constant.FilePackage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
+import org.springframework.context.annotation.Profile
 
 @Component
+@Profile("!test")
 class FileKeyGenerator {
     @Value("\${spring.profiles.active}")
     lateinit var activeProfile: String
