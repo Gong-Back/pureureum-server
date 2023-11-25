@@ -1,6 +1,7 @@
 package gongback.pureureumserver.service
 
 import gongback.pureureumserver.domain.suggestion.SuggestionSortType
+import gongback.pureureumserver.domain.suggestion.SuggestionStatus
 import gongback.pureureumserver.service.dto.SuggestionRequest
 import gongback.pureureumserver.service.dto.SuggestionResponse
 import gongback.pureureumserver.service.dto.SuggestionSliceResponse
@@ -21,9 +22,10 @@ class SuggestionFacade(
         size: Int,
         lastId: Long?,
         sortType: SuggestionSortType,
+        status: SuggestionStatus,
         loginUserId: Long?,
     ): SuggestionSliceResponse =
-        suggestionService.getSuggestions(size, lastId, sortType, loginUserId)
+        suggestionService.getSuggestions(size, lastId, sortType, status, loginUserId)
 
     fun deleteSuggestion(suggestionId: Long, loginUserId: Long) {
         suggestionService.deleteSuggestion(suggestionId, loginUserId)

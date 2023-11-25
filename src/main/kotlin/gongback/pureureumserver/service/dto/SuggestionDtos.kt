@@ -2,6 +2,7 @@ package gongback.pureureumserver.service.dto
 
 import gongback.pureureumserver.domain.suggestion.Suggestion
 import gongback.pureureumserver.domain.suggestion.SuggestionInformation
+import gongback.pureureumserver.domain.suggestion.SuggestionStatus
 import gongback.pureureumserver.domain.suggestion.SuggestionVote
 import gongback.pureureumserver.domain.suggestion.SuggestionVoteInformation
 import io.swagger.v3.oas.annotations.media.Schema
@@ -97,6 +98,8 @@ data class SuggestionSummaryResponse(
     val startDate: LocalDate,
     @Schema(description = "제안 종료 일자")
     val endDate: LocalDate,
+    @Schema(description = "제안 상태")
+    val status: SuggestionStatus,
     @Schema(description = "제안 투표 여부")
     val isVoted: Boolean,
     @Schema(description = "제안 투표 총 투표 수")
@@ -109,6 +112,7 @@ data class SuggestionSummaryResponse(
         suggestion.title,
         suggestion.startDate,
         suggestion.endDate,
+        suggestion.status,
         isVoted,
         suggestion.totalVoteCount,
         suggestion.createdDate,

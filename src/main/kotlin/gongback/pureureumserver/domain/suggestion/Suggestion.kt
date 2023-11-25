@@ -12,8 +12,7 @@ import java.time.LocalDate
 
 @Entity
 class Suggestion(
-    @Embedded
-    val information: SuggestionInformation,
+    information: SuggestionInformation,
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
@@ -21,6 +20,10 @@ class Suggestion(
 
     suggestionVotes: List<SuggestionVote> = emptyList(),
 ) : BaseUpdatableEntity() {
+    @Embedded
+    var information: SuggestionInformation = information
+        protected set
+
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(name = "suggestion_id", nullable = false, updatable = false)
     private val mutableSuggestionVotes: MutableList<SuggestionVote> = suggestionVotes.toMutableList()
@@ -42,7 +45,14 @@ class Suggestion(
     val endDate: LocalDate
         get() = information.endDate
 
+    val status: SuggestionStatus
+        get() = information.status
+
     fun addSuggestionVotes(suggestionVotes: List<SuggestionVote>) {
         mutableSuggestionVotes.addAll(suggestionVotes)
+    }
+
+    fun changeStatus(status: SuggestionStatus) {
+        this.information = information.copy(status = status)
     }
 }

@@ -1,6 +1,7 @@
 package gongback.pureureumserver.controller
 
 import gongback.pureureumserver.domain.suggestion.SuggestionSortType
+import gongback.pureureumserver.domain.suggestion.SuggestionStatus
 import gongback.pureureumserver.security.LoginUserId
 import gongback.pureureumserver.service.SuggestionFacade
 import gongback.pureureumserver.service.dto.SuggestionRequest
@@ -52,10 +53,12 @@ class SuggestionControllerImpl(
         lastId: Long?,
         @RequestParam("sortType", defaultValue = "LATEST", required = false)
         sortType: SuggestionSortType,
+        @RequestParam("status", defaultValue = "IN_PROGRESS", required = true)
+        status: SuggestionStatus,
         @LoginUserId(required = false)
         loginUserId: Long?,
     ): ResponseEntity<SuggestionSliceResponse> {
-        val response = suggestionFacade.getSuggestions(size, lastId, sortType, loginUserId)
+        val response = suggestionFacade.getSuggestions(size, lastId, sortType, status, loginUserId)
         return ResponseEntity.ok(response)
     }
 

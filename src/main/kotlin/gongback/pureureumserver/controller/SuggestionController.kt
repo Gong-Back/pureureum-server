@@ -1,6 +1,7 @@
 package gongback.pureureumserver.controller
 
 import gongback.pureureumserver.domain.suggestion.SuggestionSortType
+import gongback.pureureumserver.domain.suggestion.SuggestionStatus
 import gongback.pureureumserver.service.dto.SuggestionRequest
 import gongback.pureureumserver.service.dto.SuggestionResponse
 import gongback.pureureumserver.service.dto.SuggestionSliceResponse
@@ -76,6 +77,12 @@ interface SuggestionController {
             description = "제안을 조회할 사용자 id",
             required = false,
         )
+        @Parameter(
+            description = "제안 상태",
+            required = true,
+            example = "IN_PROGRESS(진행중), COMPLETED(완료)",
+        )
+        status: SuggestionStatus,
         loginUserId: Long?,
     ): ResponseEntity<SuggestionSliceResponse>
 
