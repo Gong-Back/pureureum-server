@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // db
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
@@ -51,6 +52,9 @@ dependencies {
     // redis
     implementation("org.redisson:redisson-spring-boot-starter:3.23.4")
 
+    // kotlin-jdsl
+    implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl-jakarta:2.2.1.RELEASE")
+
     // opensearch
     implementation("org.opensearch.client:spring-data-opensearch-starter:1.2.0") {
         exclude("org.opensearch.client", "opensearch-rest-client-sniffer")
@@ -64,9 +68,6 @@ dependencies {
 
     // http interface
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-
-    // kotlin-jdsl
-    implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl-jakarta:2.2.1.RELEASE")
 
     // aws s3
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")

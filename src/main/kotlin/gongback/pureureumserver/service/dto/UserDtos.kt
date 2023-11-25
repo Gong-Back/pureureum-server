@@ -92,14 +92,13 @@ data class CitizenshipResponse private constructor(
     val attendCount: Int,
 ) {
     companion object {
-        fun of(user: User, profileUrl: URL): CitizenshipResponse {
+        fun of(user: User, profileUrl: URL, attendedCulturalEventCount: Int): CitizenshipResponse {
             return CitizenshipResponse(
                 nickname = user.nickname,
                 name = user.name,
                 joinDate = user.createdDate.toLocalDate(),
                 profileUrl = profileUrl,
-                // TODO 이거 컨텐츠 참여 횟수 넣어야 함
-                attendCount = 0,
+                attendCount = attendedCulturalEventCount,
             )
         }
     }
