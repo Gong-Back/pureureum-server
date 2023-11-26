@@ -1,6 +1,7 @@
 package gongback.pureureumserver.config
 
 import gongback.pureureumserver.infra.culturalevent.SeoulOpenDataClient
+import gongback.pureureumserver.infra.culturalevent.SeoulOpenReservationClient
 import gongback.pureureumserver.infra.file.AwsS3Client
 import gongback.pureureumserver.security.JwtTokenProvider
 import gongback.pureureumserver.service.FileKeyGenerator
@@ -19,6 +20,9 @@ class TestMockBeanConfig {
 
     @MockBean
     lateinit var seoulOpenDataClient: SeoulOpenDataClient
+
+    @MockBean
+    lateinit var seoulOpenReservationClient: SeoulOpenReservationClient
 
     @MockBean
     lateinit var jwtTokenProvider: JwtTokenProvider

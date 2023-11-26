@@ -88,7 +88,8 @@ class CulturalEventTaskScheduler(
         val culturalEvent = culturalEventClient.getCulturalEvent(it.culturalEventId) ?: return null
         val thumbnail = culturalEventClient.getCulturalEventThumbnail(culturalEvent)
         val fileExtension = culturalEvent.fileExtsnNm
-        val fileKey = "${FilePackage.COMMON.toLowercase()}/${FilePackage.CULTURAL_EVENT.toLowercase()}/${culturalEvent.fileId}.$fileExtension"
+        val filePackage = "${FilePackage.COMMON.toLowercase()}/${FilePackage.CULTURAL_EVENT.toLowercase()}"
+        val fileKey = "$filePackage/${culturalEvent.fileId}.$fileExtension"
 
         fileClient.uploadFile(
             fileKey = fileKey,
