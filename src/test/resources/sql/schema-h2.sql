@@ -159,5 +159,11 @@ CREATE INDEX idx_suggestion_id_and_user_id_on_suggestion_vote_record ON suggesti
 alter table cultural_event
     add column file_id bigint null COMMENT '썸네일 파일 아이디 (FK)';
 
-alter table profile
+alter table cultural_event
     add constraint fk_cultural_event_file_id foreign key (file_id) references file (id);
+
+alter table suggestion
+    add column file_id bigint not null COMMENT '제안하기 썸네일';
+
+alter table suggestion
+    add constraint fk_suggestion_file_id foreign key (file_id) references file (id);
