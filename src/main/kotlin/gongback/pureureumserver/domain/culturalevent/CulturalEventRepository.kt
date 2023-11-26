@@ -21,6 +21,7 @@ interface CulturalEventRepository : JpaRepository<CulturalEvent, Long>, CustomCu
     fun existsByInformationCulturalEventId(culturalEventId: String): Boolean
 
     fun findTop5OByOrderByInformationServiceStartDateTimeDesc(): List<CulturalEvent>
+    fun findByInformationCulturalEventIdIn(existCulturalEventIds: List<String>): List<CulturalEvent>
 }
 
 interface CustomCulturalEventRepository {
