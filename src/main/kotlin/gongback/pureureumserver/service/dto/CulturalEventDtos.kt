@@ -4,6 +4,7 @@ import gongback.pureureumserver.domain.culturalevent.CulturalEvent
 import gongback.pureureumserver.domain.culturalevent.CulturalEventCoordinates
 import gongback.pureureumserver.domain.culturalevent.CulturalEventInformation
 import io.swagger.v3.oas.annotations.media.Schema
+import java.net.URL
 import java.time.LocalDateTime
 
 @Schema(description = "문화 행사 목록 응답")
@@ -13,9 +14,9 @@ data class CulturalEventResponse(
     @Schema(description = "문화 행사 목록")
     val culturalEventDtos: List<CulturalEventDto>,
 ) {
-    constructor(culturalEvents: List<CulturalEvent>) : this(
+    constructor(culturalEvents: List<CulturalEventDto>) : this(
         listTotalCount = culturalEvents.size.toLong(),
-        culturalEventDtos = culturalEvents.map { CulturalEventDto(it) },
+        culturalEventDtos = culturalEvents,
     )
 }
 
@@ -53,8 +54,10 @@ data class CulturalEventDto(
     val registerStartDateTime: LocalDateTime,
     @Schema(description = "문화행사 접수 종료 시간")
     val registerEndDateTime: LocalDateTime,
+    @Schema(description = "문화행사 썸네일 이미지 URL")
+    val thumbnailUrl: URL?,
 ) {
-    constructor(culturalEvent: CulturalEvent) : this(
+    constructor(culturalEvent: CulturalEvent, imageUrl: URL) : this(
         id = culturalEvent.id,
         culturalEventId = culturalEvent.culturalEventId,
         clasName = culturalEvent.className,
@@ -71,6 +74,7 @@ data class CulturalEventDto(
         serviceEndDateTime = culturalEvent.serviceEndDateTime,
         registerStartDateTime = culturalEvent.registerStartDateTime,
         registerEndDateTime = culturalEvent.registerEndDateTime,
+        thumbnailUrl = imageUrl,
     )
 
     fun toCulturalEventInformation() = CulturalEventInformation(

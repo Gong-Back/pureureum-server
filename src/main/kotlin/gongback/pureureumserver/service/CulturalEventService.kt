@@ -9,12 +9,16 @@ import gongback.pureureumserver.service.dto.CulturalEventResponse
 import gongback.pureureumserver.service.dto.CulturalEventSliceResponse
 import gongback.pureureumserver.service.dto.SliceResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
 class CulturalEventService(
     private val culturalEventRepository: CulturalEventRepository,
+    private val fileClient: FileClient,
 ) {
+
+    @Transactional(readOnly = true)
     fun getCulturalEvents(
         size: Int,
         lastId: Long?,
@@ -28,9 +32,15 @@ class CulturalEventService(
         return getCulturalEventSliceResponse(culturalEventSlice, size, sortType)
     }
 
+    @Transactional(readOnly = true)
     fun getMyAttendedCulturalEvents(): CulturalEventResponse {
-        // TODO: 추후 나의 문화 행사 목록 조회 기능 구현
-        return CulturalEventResponse(culturalEventRepository.getMyAttendedCulturalEvents())
+        val culturalEvents = culturalEventRepository.getMyAttendedCulturalEvents()
+        return CulturalEventResponse(
+            culturalEvents = culturalEvents.map {
+                val imageUrl = fileClient.getImageUrl(it.thumbnail.fileKey)
+                CulturalEventDto(it, imageUrl)
+            },
+        )
     }
 
     private fun getCulturalEventSliceResponse(
@@ -53,16 +63,22 @@ class CulturalEventService(
             val lastDateTime = culturalEventDateTimeToStringBySortType(sortType, lastContent)
             val lastId = lastContent.id
             return CulturalEventSliceResponse(
-                lastId,
-                lastDateTime,
-                hasNext,
-                content.map { CulturalEventDto(it) },
+                lastId = lastId,
+                lastDateTime = lastDateTime,
+                hasNext = hasNext,
+                content = content.map {
+                    val imageUrl = fileClient.getImageUrl(it.thumbnail.fileKey)
+                    CulturalEventDto(it, imageUrl)
+                },
             )
         }
 
         return CulturalEventSliceResponse(
             hasNext = hasNext,
-            content = content.map { CulturalEventDto(it) },
+            content = content.map {
+                val imageUrl = fileClient.getImageUrl(it.thumbnail.fileKey)
+                CulturalEventDto(it, imageUrl)
+            },
         )
     }
 
