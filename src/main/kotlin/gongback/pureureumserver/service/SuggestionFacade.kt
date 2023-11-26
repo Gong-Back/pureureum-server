@@ -15,17 +15,16 @@ class SuggestionFacade(
     fun createSuggestion(suggestionRequest: SuggestionRequest, loginUserId: Long) =
         suggestionService.createSuggestion(suggestionRequest, loginUserId)
 
-    fun getSuggestion(suggestionId: Long): SuggestionResponse =
-        suggestionService.getSuggestion(suggestionId)
+    fun getSuggestion(suggestionId: Long, loginUserId: Long?): SuggestionResponse =
+        suggestionService.getSuggestion(suggestionId, loginUserId)
 
     fun getSuggestions(
         size: Int,
         lastId: Long?,
         sortType: SuggestionSortType,
         status: SuggestionStatus,
-        loginUserId: Long?,
     ): SuggestionSliceResponse =
-        suggestionService.getSuggestions(size, lastId, sortType, status, loginUserId)
+        suggestionService.getSuggestions(size, lastId, sortType, status)
 
     fun deleteSuggestion(suggestionId: Long, loginUserId: Long) {
         suggestionService.deleteSuggestion(suggestionId, loginUserId)

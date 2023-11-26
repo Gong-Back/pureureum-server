@@ -10,7 +10,7 @@ create table suggestion
     totalVoteCount int          not null default 0 COMMENT '총 투표 수',
     user_id        bigint       not null COMMENT '사용자 아이디',
     primary key (id)
-) engine = InnoDB COMMENT = '제안하기 게시판';
+) engine = InnoDB COMMENT = '제안하기 게시판' CHAR SET utf8mb4;
 
 alter table suggestion
     add constraint fk_suggestion_user_id foreign key (user_id) references users (id);
@@ -23,7 +23,7 @@ create table suggestion_vote
     vote_count    int          not null default 0 COMMENT '투표 수',
     suggestion_id bigint       not null COMMENT '제안하기 게시판 아이디',
     primary key (id)
-) engine = InnoDB COMMENT = '제안하기 게시판 투표 항목';
+) engine = InnoDB COMMENT = '제안하기 게시판 투표 항목' CHAR SET utf8mb4;
 
 alter table suggestion_vote
     add constraint fk_suggestion_vote_suggestion_id foreign key (suggestion_id) references suggestion (id);
@@ -35,7 +35,7 @@ create table suggestion_vote_record
     suggestion_id bigint    not null COMMENT '제안하기 게시판 아이디',
     user_id       bigint    not null COMMENT '사용자 아이디',
     primary key (id)
-) engine = InnoDB COMMENT = '제안하기 게시판 투표 기록';
+) engine = InnoDB COMMENT = '제안하기 게시판 투표 기록' CHAR SET utf8mb4;
 
 alter table suggestion_vote_record
     add constraint fk_suggestion_vote_record_suggestion_id foreign key (suggestion_id) references suggestion (id);

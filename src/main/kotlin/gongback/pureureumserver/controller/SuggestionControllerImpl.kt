@@ -39,8 +39,10 @@ class SuggestionControllerImpl(
     override fun getSuggestion(
         @Positive(message = "suggestionId는 0보다 커야 합니다.")
         @PathVariable("suggestionId") suggestionId: Long,
+        @LoginUserId(required = false)
+        loginUserId: Long?,
     ): ResponseEntity<SuggestionResponse> {
-        val response = suggestionFacade.getSuggestion(suggestionId)
+        val response = suggestionFacade.getSuggestion(suggestionId, loginUserId)
         return ResponseEntity.ok(response)
     }
 
@@ -55,10 +57,8 @@ class SuggestionControllerImpl(
         sortType: SuggestionSortType,
         @RequestParam("status", defaultValue = "IN_PROGRESS", required = true)
         status: SuggestionStatus,
-        @LoginUserId(required = false)
-        loginUserId: Long?,
     ): ResponseEntity<SuggestionSliceResponse> {
-        val response = suggestionFacade.getSuggestions(size, lastId, sortType, status, loginUserId)
+        val response = suggestionFacade.getSuggestions(size, lastId, sortType, status)
         return ResponseEntity.ok(response)
     }
 

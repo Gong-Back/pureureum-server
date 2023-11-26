@@ -12,6 +12,7 @@ import gongback.pureureumserver.service.dto.SuggestionRequest
 import gongback.pureureumserver.service.dto.SuggestionResponse
 import gongback.pureureumserver.service.dto.SuggestionSliceResponse
 import gongback.pureureumserver.service.dto.SuggestionSummaryResponse
+import gongback.pureureumserver.service.dto.SuggestionUserVotedResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -32,9 +33,10 @@ class SuggestionService(
     }
 
     @Transactional(readOnly = true)
-    fun getSuggestion(suggestionId: Long): SuggestionResponse {
+    fun getSuggestion(suggestionId: Long, loginUserId: Long?): SuggestionResponse {
         val suggestion = suggestionRepository.getSuggestionById(suggestionId)
-        return SuggestionResponse(suggestion)
+        val suggestionUserVotedResponse = createSuggestionUserVotedResponse(loginUserId, suggestionId)
+        return SuggestionResponse(suggestion, suggestionUserVotedResponse)
     }
 
     @Transactional(readOnly = true)
@@ -43,10 +45,9 @@ class SuggestionService(
         lastId: Long?,
         sortType: SuggestionSortType,
         status: SuggestionStatus,
-        loginUserId: Long?,
     ): SuggestionSliceResponse {
         val suggestionSlice = suggestionRepository.findSliceBy(size, lastId, sortType, status)
-        return getSuggestionSliceResponse(size, loginUserId, suggestionSlice)
+        return getSuggestionSliceResponse(size, suggestionSlice)
     }
 
     @Transactional
@@ -64,12 +65,12 @@ class SuggestionService(
         val suggestion = suggestionRepository.getSuggestionById(suggestionId)
         val loginUser = userRepository.getReferenceById(loginUserId)
         val suggestionVote = suggestion.suggestionVotes.find { it.id == suggestionVoteId }
-            ?: throw NoSuchElementException("해당 제안 투표($suggestionVoteId)는 존재하지 않습니다.")
+            ?: throw NoSuchElementException("해당 제안 투표 항목($suggestionVoteId)은 존재하지 않습니다.")
         if (suggestionVoteRecordRepository.existsBySuggestionIdAndUserId(suggestionId, loginUser.id)) {
             throw ForbiddenException("이미 해당 제안($suggestionId)에 투표하였습니다.")
         }
         suggestionVote.increaseVoteCount()
-        suggestionVoteRecordRepository.save(SuggestionVoteRecord(loginUser, suggestion))
+        suggestionVoteRecordRepository.save(SuggestionVoteRecord(loginUser, suggestion, suggestionVote))
     }
 
     @Transactional
@@ -84,28 +85,33 @@ class SuggestionService(
         suggestionVoteRecordRepository.delete(suggestionVoteRecord)
     }
 
+    private fun createSuggestionUserVotedResponse(
+        loginUserId: Long?,
+        suggestionId: Long,
+    ): SuggestionUserVotedResponse {
+        val suggestionVoteRecord = loginUserId?.let { userId ->
+            suggestionVoteRecordRepository.findBySuggestionIdAndUserId(suggestionId, userId)
+        }
+        val isVoted = suggestionVoteRecord != null
+        val suggestionVoteId = suggestionVoteRecord?.suggestionVote?.id
+        return SuggestionUserVotedResponse(isVoted, suggestionVoteId)
+    }
+
     private fun getSuggestionSliceResponse(
         size: Int,
-        loginUserId: Long?,
         suggestionSlice: List<Suggestion>,
     ): SuggestionSliceResponse {
         val hasNext = suggestionSlice.size > size
-        val suggestionContent = getSuggestionContent(hasNext, loginUserId, suggestionSlice)
+        val suggestionContent = getSuggestionContentBySlice(hasNext, suggestionSlice)
         return createSuggestionSliceResponse(hasNext, suggestionContent)
     }
 
-    private fun getSuggestionContent(
+    private fun getSuggestionContentBySlice(
         hasNext: Boolean,
-        loginUserId: Long?,
         suggestionSlice: List<Suggestion>,
     ): List<SuggestionSummaryResponse> {
         val content = if (hasNext) suggestionSlice.dropLast(1) else suggestionSlice
-        return content.map {
-            val isVoted = loginUserId?.let { userId ->
-                suggestionVoteRecordRepository.existsBySuggestionIdAndUserId(it.id, userId)
-            } ?: false
-            SuggestionSummaryResponse(it, isVoted)
-        }
+        return content.map { SuggestionSummaryResponse(it) }
     }
 
     private fun createSuggestionSliceResponse(

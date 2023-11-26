@@ -1,6 +1,7 @@
 package gongback.pureureumserver.domain.suggestionvoterecord
 
 import gongback.pureureumserver.domain.suggestion.Suggestion
+import gongback.pureureumserver.domain.suggestion.SuggestionVote
 import gongback.pureureumserver.domain.user.User
 import gongback.pureureumserver.support.domain.BaseEntity
 import jakarta.persistence.Entity
@@ -17,4 +18,8 @@ class SuggestionVoteRecord(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "suggestion_id")
     val suggestion: Suggestion,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "suggestion_vote_id")
+    val suggestionVote: SuggestionVote,
 ) : BaseEntity()

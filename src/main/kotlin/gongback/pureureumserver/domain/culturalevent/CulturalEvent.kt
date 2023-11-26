@@ -7,9 +7,12 @@ import java.time.LocalDateTime
 
 @Entity
 class CulturalEvent(
-    @Embedded
-    val information: CulturalEventInformation,
+    information: CulturalEventInformation,
 ) : BaseUpdatableEntity() {
+    @Embedded
+    var information: CulturalEventInformation = information
+        protected set
+
     val culturalEventId: String
         get() = information.culturalEventId
 
@@ -51,4 +54,8 @@ class CulturalEvent(
 
     val registerEndDateTime: LocalDateTime
         get() = information.registerEndDateTime
+
+    fun updateInformation(culturalEventInformation: CulturalEventInformation) {
+        this.information = culturalEventInformation
+    }
 }

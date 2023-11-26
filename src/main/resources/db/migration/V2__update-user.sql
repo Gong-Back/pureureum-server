@@ -6,7 +6,7 @@ create table file
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     primary key (id)
-) engine = InnoDB COMMENT = '파일';
+) engine = InnoDB COMMENT = '파일' CHAR SET utf8mb4;
 
 alter table users
     add column password varchar(255) not null COMMENT '비밀번호';
@@ -33,7 +33,7 @@ create table user_badge
     file_id bigint not null COMMENT '파일 아이디 (FK)',
     user_id bigint not null COMMENT '사용자 아이디 (FK)',
     primary key (id)
-) engine = InnoDB COMMENT = '사용자 뱃지';
+) engine = InnoDB COMMENT = '사용자 뱃지' CHAR SET utf8mb4;
 
 alter table user_badge
     add constraint fk_user_badge_file_id foreign key (file_id) references file (id);

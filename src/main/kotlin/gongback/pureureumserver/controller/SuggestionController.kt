@@ -54,6 +54,11 @@ interface SuggestionController {
             required = true,
         )
         suggestionId: Long,
+        @Parameter(
+            description = "제안을 조회할 사용자 id",
+            required = false,
+        )
+        loginUserId: Long?,
     ): ResponseEntity<SuggestionResponse>
 
     fun getSuggestions(
@@ -83,7 +88,6 @@ interface SuggestionController {
             example = "IN_PROGRESS(진행중), COMPLETED(완료)",
         )
         status: SuggestionStatus,
-        loginUserId: Long?,
     ): ResponseEntity<SuggestionSliceResponse>
 
     @ApiResponses(

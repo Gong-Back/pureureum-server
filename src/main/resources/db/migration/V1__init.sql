@@ -6,7 +6,7 @@ create table profile
     file_key           varchar(255) not null COMMENT '파일 키',
     original_file_name varchar(255) not null COMMENT '원본 파일 이름',
     primary key (id)
-) engine = InnoDB COMMENT = '프로필 이미지';
+) engine = InnoDB COMMENT = '프로필 이미지' CHAR SET utf8mb4;
 
 create table users
 (
@@ -23,7 +23,7 @@ create table users
     user_role       varchar(20) not null COMMENT '사용자 권한',
     profile_id      bigint      not null COMMENT '프로필 이미지 아이디',
     primary key (id)
-) engine = InnoDB COMMENT = '사용자';
+) engine = InnoDB COMMENT = '사용자' CHAR SET utf8mb4;
 
 alter table users
     add constraint fk_user_profile_id foreign key (profile_id) references profile (id);
@@ -49,7 +49,7 @@ create table cultural_event
     register_start_date_time timestamp    not null COMMENT '접수 시작 일시',
     register_end_date_time   timestamp    not null COMMENT '접수 종료 일시',
     primary key (id)
-) engine = InnoDB COMMENT = '문화행사';
+) engine = InnoDB COMMENT = '문화행사' CHAR SET utf8mb4;
 
 alter table cultural_event
     add constraint uk_cultural_event_id_on_cultural_event unique (cultural_event_id);

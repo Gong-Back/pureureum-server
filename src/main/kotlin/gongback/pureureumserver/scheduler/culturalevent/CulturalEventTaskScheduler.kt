@@ -5,6 +5,7 @@ import gongback.pureureumserver.domain.culturalevent.CulturalEventRepository
 import gongback.pureureumserver.domain.culturalevent.existsByCulturalEventId
 import gongback.pureureumserver.service.CulturalEventClient
 import gongback.pureureumserver.service.LockTemplate
+import gongback.pureureumserver.service.dto.CulturalEventResponse
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -21,8 +22,11 @@ class CulturalEventTaskScheduler(
     private val culturalEventRepository: CulturalEventRepository,
     private val lockTemplate: LockTemplate,
 ) {
+    /**
+     * 매일 00:30:00에 실행
+     */
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 30 0 * * *", zone = "Asia/Seoul")
     fun syncCulturalEventToDatabase() {
         log.info("[syncCulturalEventToDatabase] start sync cultural event to database")
         try {
@@ -43,12 +47,11 @@ class CulturalEventTaskScheduler(
             while (true) {
                 val culturalEvents = culturalEventClient.getCulturalEvents(startIndex, endIndex)
 
-                culturalEvents.culturalEventDtos
-                    .filter { culturalEventRepository.existsByCulturalEventId(it.culturalEventId).not() }
-                    .forEach {
-                        log.info("[syncCulturalEventToDatabase] save cultural event to database: ${it.culturalEventId}")
-                        culturalEventRepository.save(CulturalEvent(it.toCulturalEventInformation()))
-                    }
+                // 존재하지 않는 항목 저장
+                saveCulturalEvents(culturalEvents)
+
+                // 존재하는 항목 업데이트
+                updateCulturalEvents(culturalEvents)
 
                 if (culturalEvents.listTotalCount <= endIndex) {
                     break
@@ -62,4 +65,29 @@ class CulturalEventTaskScheduler(
             log.error("[syncCulturalEventToDatabase] error occurred while sync cultural event to database", e)
         }
     }
+
+    private fun saveCulturalEvents(culturalEvents: CulturalEventResponse) {
+        culturalEvents.culturalEventDtos
+            .filter { culturalEventRepository.existsByCulturalEventId(it.culturalEventId).not() }
+            .forEach {
+                log.info("[syncCulturalEventToDatabase] save cultural event to database: ${it.culturalEventId}")
+                culturalEventRepository.save(CulturalEvent(it.toCulturalEventInformation()))
+            }
+    }
+
+    private fun updateCulturalEvents(culturalEvents: CulturalEventResponse) {
+        val existCulturalEventIds = getExistCulturalEventIds(culturalEvents)
+        culturalEventRepository.findByInformationCulturalEventIdIn(existCulturalEventIds)
+            .forEach {
+                log.info("[syncCulturalEventToDatabase] update cultural event to database: ${it.information.culturalEventId}")
+                it.updateInformation(
+                    culturalEvents.culturalEventDtos.first { dto -> dto.culturalEventId == it.information.culturalEventId }
+                        .toCulturalEventInformation(),
+                )
+            }
+    }
+
+    private fun getExistCulturalEventIds(culturalEvents: CulturalEventResponse) = culturalEvents.culturalEventDtos
+        .filter { culturalEventRepository.existsByCulturalEventId(it.culturalEventId) }
+        .map { it.culturalEventId }
 }

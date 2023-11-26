@@ -1,5 +1,6 @@
 package gongback.pureureumserver.service.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import gongback.pureureumserver.domain.suggestion.Suggestion
 import gongback.pureureumserver.domain.suggestion.SuggestionInformation
 import gongback.pureureumserver.domain.suggestion.SuggestionStatus
@@ -59,8 +60,10 @@ data class SuggestionResponse(
     val createdDate: LocalDateTime,
     @Schema(description = "제안 투표 목록")
     val suggestionVotes: List<SuggestionVoteResponse>,
+    @Schema(description = "사용지 투표 정보")
+    val userVotedInfo: SuggestionUserVotedResponse,
 ) {
-    constructor(suggestion: Suggestion) : this(
+    constructor(suggestion: Suggestion, suggestionUserVotedResponse: SuggestionUserVotedResponse) : this(
         suggestion.id,
         suggestion.title,
         suggestion.content,
@@ -69,8 +72,17 @@ data class SuggestionResponse(
         suggestion.totalVoteCount,
         suggestion.createdDate,
         suggestion.suggestionVotes.map { SuggestionVoteResponse(it) },
+        suggestionUserVotedResponse,
     )
 }
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+data class SuggestionUserVotedResponse(
+    @Schema(description = "제안 투표 여부")
+    val isVoted: Boolean,
+    @Schema(description = "투표 아이디")
+    val votedId: Long? = null,
+)
 
 @Schema(description = "제안 투표 세부 응답")
 data class SuggestionVoteResponse(
@@ -100,20 +112,17 @@ data class SuggestionSummaryResponse(
     val endDate: LocalDate,
     @Schema(description = "제안 상태")
     val status: SuggestionStatus,
-    @Schema(description = "제안 투표 여부")
-    val isVoted: Boolean,
     @Schema(description = "제안 투표 총 투표 수")
     val totalVoteCount: Int,
     @Schema(description = "제안 생성일")
     val createdDate: LocalDateTime,
 ) {
-    constructor(suggestion: Suggestion, isVoted: Boolean) : this(
+    constructor(suggestion: Suggestion) : this(
         suggestion.id,
         suggestion.title,
         suggestion.startDate,
         suggestion.endDate,
         suggestion.status,
-        isVoted,
         suggestion.totalVoteCount,
         suggestion.createdDate,
     )
