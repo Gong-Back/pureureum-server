@@ -1,5 +1,6 @@
 package gongback.pureureumserver.domain.suggestion
 
+import gongback.pureureumserver.domain.file.File
 import gongback.pureureumserver.domain.user.User
 import gongback.pureureumserver.support.domain.BaseUpdatableEntity
 import jakarta.persistence.CascadeType
@@ -8,11 +9,14 @@ import jakarta.persistence.Entity
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import java.time.LocalDate
 
 @Entity
 class Suggestion(
     information: SuggestionInformation,
+
+    thumbnailFile: File,
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
@@ -23,6 +27,10 @@ class Suggestion(
     @Embedded
     var information: SuggestionInformation = information
         protected set
+
+    @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
+    @JoinColumn(name = "file_id", nullable = false, updatable = false)
+    val thumbnail: File = thumbnailFile
 
     @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
     @JoinColumn(name = "suggestion_id", nullable = false, updatable = false)

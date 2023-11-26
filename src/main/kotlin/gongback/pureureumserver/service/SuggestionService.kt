@@ -1,5 +1,6 @@
 package gongback.pureureumserver.service
 
+import gongback.pureureumserver.domain.file.File
 import gongback.pureureumserver.domain.suggestion.Suggestion
 import gongback.pureureumserver.domain.suggestion.SuggestionRepository
 import gongback.pureureumserver.domain.suggestion.SuggestionSortType
@@ -15,19 +16,21 @@ import gongback.pureureumserver.service.dto.SuggestionSummaryResponse
 import gongback.pureureumserver.service.dto.SuggestionUserVotedResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class SuggestionService(
     private val suggestionRepository: SuggestionRepository,
     private val suggestionVoteRecordRepository: SuggestionVoteRecordRepository,
     private val userRepository: UserRepository,
+    private val fileService: FileService,
 ) {
     @Transactional
-    fun createSuggestion(suggestionRequest: SuggestionRequest, loginUserId: Long): Long {
+    fun createSuggestion(suggestionRequest: SuggestionRequest, thumbnail: File, loginUserId: Long): Long {
         validateSuggestionRequest(suggestionRequest)
 
         val loginUser = userRepository.getReferenceById(loginUserId)
-        val suggestion = Suggestion(suggestionRequest.toSuggestionInformation(), loginUser)
+        val suggestion = Suggestion(suggestionRequest.toSuggestionInformation(), thumbnail, loginUser)
         suggestion.addSuggestionVotes(suggestionRequest.toSuggestionVotes())
         return suggestionRepository.save(suggestion).id
     }
@@ -35,8 +38,9 @@ class SuggestionService(
     @Transactional(readOnly = true)
     fun getSuggestion(suggestionId: Long, loginUserId: Long?): SuggestionResponse {
         val suggestion = suggestionRepository.getSuggestionById(suggestionId)
+        val thumbnailUrl = fileService.getImageUrl(suggestion.thumbnail.fileKey)
         val suggestionUserVotedResponse = createSuggestionUserVotedResponse(loginUserId, suggestionId)
-        return SuggestionResponse(suggestion, suggestionUserVotedResponse)
+        return SuggestionResponse(suggestion, thumbnailUrl.toString(), suggestionUserVotedResponse)
     }
 
     @Transactional(readOnly = true)
@@ -85,6 +89,10 @@ class SuggestionService(
         suggestionVoteRecordRepository.delete(suggestionVoteRecord)
     }
 
+    fun uploadSuggestionThumbnail(thumbnail: MultipartFile) = fileService.uploadFile(thumbnail)
+
+    fun deleteSuggestionThumbnail(thumbnailFileKey: String) = fileService.deleteFile(thumbnailFileKey)
+
     private fun createSuggestionUserVotedResponse(
         loginUserId: Long?,
         suggestionId: Long,
@@ -111,7 +119,10 @@ class SuggestionService(
         suggestionSlice: List<Suggestion>,
     ): List<SuggestionSummaryResponse> {
         val content = if (hasNext) suggestionSlice.dropLast(1) else suggestionSlice
-        return content.map { SuggestionSummaryResponse(it) }
+        return content.map {
+            val thumbnailUrl = fileService.getImageUrl(it.thumbnail.fileKey)
+            SuggestionSummaryResponse(it, thumbnailUrl.toString())
+        }
     }
 
     private fun createSuggestionSliceResponse(

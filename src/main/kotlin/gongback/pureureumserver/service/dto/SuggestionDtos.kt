@@ -58,12 +58,14 @@ data class SuggestionResponse(
     val totalVoteCount: Int,
     @Schema(description = "제안 생성일")
     val createdDate: LocalDateTime,
+    @Schema(description = "제안 썸네일 url")
+    val thumbnailUrl: String,
     @Schema(description = "제안 투표 목록")
     val suggestionVotes: List<SuggestionVoteResponse>,
     @Schema(description = "사용지 투표 정보")
     val userVotedInfo: SuggestionUserVotedResponse,
 ) {
-    constructor(suggestion: Suggestion, suggestionUserVotedResponse: SuggestionUserVotedResponse) : this(
+    constructor(suggestion: Suggestion, thumbnailUrl: String, suggestionUserVotedResponse: SuggestionUserVotedResponse) : this(
         suggestion.id,
         suggestion.title,
         suggestion.content,
@@ -71,6 +73,7 @@ data class SuggestionResponse(
         suggestion.endDate,
         suggestion.totalVoteCount,
         suggestion.createdDate,
+        thumbnailUrl,
         suggestion.suggestionVotes.map { SuggestionVoteResponse(it) },
         suggestionUserVotedResponse,
     )
@@ -116,8 +119,10 @@ data class SuggestionSummaryResponse(
     val totalVoteCount: Int,
     @Schema(description = "제안 생성일")
     val createdDate: LocalDateTime,
+    @Schema(description = "제안 썸네일 url")
+    val thumbnailUrl: String,
 ) {
-    constructor(suggestion: Suggestion) : this(
+    constructor(suggestion: Suggestion, thumbnailUrl: String) : this(
         suggestion.id,
         suggestion.title,
         suggestion.startDate,
@@ -125,6 +130,7 @@ data class SuggestionSummaryResponse(
         suggestion.status,
         suggestion.totalVoteCount,
         suggestion.createdDate,
+        thumbnailUrl,
     )
 }
 

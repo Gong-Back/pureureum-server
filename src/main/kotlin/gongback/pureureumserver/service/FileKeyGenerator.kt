@@ -19,6 +19,6 @@ class FileKeyGenerator {
     }
 
     private fun getUploadFilePath(filePackage: FilePackage): String {
-        return "$activeProfile-$filePackage"
+        return "$activeProfile-${filePackage.toLowercase()}"
     }
 }

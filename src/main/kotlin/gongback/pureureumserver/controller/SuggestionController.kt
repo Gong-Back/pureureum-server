@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.ResponseEntity
+import org.springframework.web.multipart.MultipartFile
 
 interface SuggestionController {
     @ApiResponses(
@@ -23,15 +24,20 @@ interface SuggestionController {
     )
     fun createSuggestion(
         @Parameter(
+            description = "제안을 생성할 사용자 id",
+            required = true,
+        )
+        loginUserId: Long,
+        @Parameter(
             description = "제안 요청 정보",
             required = true,
         )
         suggestionRequest: SuggestionRequest,
         @Parameter(
-            description = "제안을 생성할 사용자 id",
+            description = "제안 썸네일",
             required = true,
         )
-        loginUserId: Long,
+        thumbnail: MultipartFile,
     ): ResponseEntity<Void>
 
     @ApiResponses(
